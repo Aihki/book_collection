@@ -1,8 +1,14 @@
 import express from 'express';
 import {authenticate} from '../../middlewares';
-import {reviewById} from '../controllers/reviewController';
+import {
+  postRatingById,
+  postReviewById,
+  reviewById,
+} from '../controllers/reviewController';
 
 const router = express.Router();
 router.route('/:id').get(reviewById);
+router.route('/newReview/:id').post(postReviewById);
+router.route('/newRating/:id').post(postRatingById);
 
 export default router;

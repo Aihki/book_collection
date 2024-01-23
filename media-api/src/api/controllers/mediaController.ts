@@ -66,7 +66,7 @@ const mediaGet = async (
 };
 
 const mediaPost = async (
-  req: Request<{}, {}, Omit<MediaItem, 'book_id' | 'created_at'>>,
+  req: Request<{}, {}, Omit<MediaItem, 'book_id' | '  '>>,
   res: Response<MediaResponse, {user: TokenContent}>,
   next: NextFunction
 ) => {

@@ -138,4 +138,5 @@ export type {
   statusResult,
   bookList,
   reviewResult,
+  Review,
 };
