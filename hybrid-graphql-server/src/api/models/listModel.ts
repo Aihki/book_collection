@@ -20,7 +20,7 @@ const ownBookList = async (id: string): Promise<bookList[] | null> => {
       LEFT JOIN Status s ON bs.status_id = s.status_id
       LEFT JOIN Users u ON c.user_id = u.user_id
       WHERE c.user_id = ?;`,
-      [id]
+      [id],
     );
     if (rows.length === 0) {
       return null;

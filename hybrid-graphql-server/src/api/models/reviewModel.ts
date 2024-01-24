@@ -17,13 +17,11 @@ const bookReviews = async (id: number): Promise<reviewResult[] | null> => {
       LEFT JOIN Ratings rt ON r.book_id = rt.book_id AND r.user_id = rt.user_id
       WHERE r.book_id = ?;
       `,
-      [id]
+      [id],
     );
-
     if (results.length === 0) {
       return null;
     }
-
     return results;
   } catch (e) {
     console.error('bookReviews error', (e as Error).message);
@@ -32,7 +30,7 @@ const bookReviews = async (id: number): Promise<reviewResult[] | null> => {
 };
 
 const postRating = async (
-  rating: Omit<Rating, 'rating_id' | 'created_at'>
+  rating: Omit<Rating, 'rating_id' | 'created_at'>,
 ): Promise<Rating | null> => {
   const {book_id, user_id, rating_value} = rating;
   try {
@@ -41,7 +39,7 @@ const postRating = async (
       INSERT INTO Ratings (book_id, user_id, rating_value)
       VALUES (?, ?, ?);
       `,
-      [book_id, user_id, rating_value]
+      [book_id, user_id, rating_value],
     );
 
     const newRating = {
@@ -60,7 +58,7 @@ const postRating = async (
 };
 
 const postReview = async (
-  review: Omit<Review, 'review_id' | 'created_at'>
+  review: Omit<Review, 'review_id' | 'created_at'>,
 ): Promise<Review | null> => {
   const {book_id, user_id, review_text} = review;
   try {
@@ -69,7 +67,7 @@ const postReview = async (
       INSERT INTO Reviews (book_id, user_id, review_text)
       VALUES (?, ?, ?);
       `,
-      [book_id, user_id, review_text]
+      [book_id, user_id, review_text],
     );
 
     const newReview = {

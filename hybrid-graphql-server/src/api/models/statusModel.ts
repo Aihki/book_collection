@@ -9,7 +9,7 @@ const allStatuses = async (): Promise<statusResult[] | null> => {
     const [rows] = await promisePool.execute<RowDataPacket[] & statusResult[]>(
       `SELECT Status.status_id, Status.status_name, BookStatus.book_id
        FROM Status
-       JOIN BookStatus ON Status.status_id = BookStatus.status_id`
+       JOIN BookStatus ON Status.status_id = BookStatus.status_id`,
     );
     if (rows.length === 0) {
       return null;
