@@ -30,6 +30,35 @@ const fetchAllMedia = async (): Promise<MediaItem[] | null> => {
     throw new Error((e as Error).message);
   }
 };
+//c = collection table
+//bs = bookstatus table
+//s = status table
+//u = users table
+const ownBookList = async (id: number): Promise<MediaItem[] | null> => {
+  try {
+    console.log('ownBookList id', id);
+    const [rows] = await promisePool.execute<RowDataPacket[] & MediaItem[]>(
+      `SELECT c.*,
+      s.status_name,
+      u.username,
+      u.email
+      FROM Collection c
+      LEFT JOIN BookStatus bs ON c.book_id = bs.book_id
+      LEFT JOIN Status s ON bs.status_id = s.status_id
+      LEFT JOIN Users u ON c.user_id = u.user_id
+      WHERE c.user_id = ?;`,
+      [id],
+    );
+    if (rows.length === 0) {
+      return null;
+    }
+    console.log('ownBookList rows', rows);
+    return rows;
+  } catch (e) {
+    console.error('fetchAllMedia error', (e as Error).message);
+    throw new Error((e as Error).message);
+  }
+};
 
 // Request a list of media items by tag
 const fetchMediaByTag = async (tag: string): Promise<MediaItem[] | null> => {
@@ -39,8 +68,8 @@ const fetchMediaByTag = async (tag: string): Promise<MediaItem[] | null> => {
       CONCAT(?, Collection.filename) AS filename,
       CONCAT(?, CONCAT(Collection.filename, "-thumb.png")) AS thumbnail
       FROM Collection
-      JOIN MediaItemTags ON Collection.media_id = MediaItemTags.media_id
-      JOIN Tags ON MediaItemTags.tag_id = Tags.tag_id
+      JOIN GenreTags ON Collection.book_id = GenreTags.book_id
+      JOIN Tags ON GenreTags.tag_id = Tags.tag_id
       WHERE Tags.tag_name = ?`,
       [process.env.UPLOAD_URL, process.env.UPLOAD_URL, tag],
     );
@@ -119,10 +148,26 @@ const fetchMediaById = async (id: number): Promise<MediaItem | null> => {
 const postMedia = async (
   media: Omit<MediaItem, 'book_id' | 'created_at' | 'thumbnail'>,
 ): Promise<MediaItem | null> => {
-  const {user_id, filename, filesize, media_type, title, description} = media;
-  const sql = `INSERT INTO Collection (user_id, filename, filesize, media_type, title, description)
-               VALUES (?, ?, ?, ?, ?, ?)`;
-  const params = [user_id, filename, filesize, media_type, title, description];
+  const {
+    user_id,
+    filename,
+    filesize,
+    media_type,
+    title,
+    description,
+    book_genre,
+  } = media;
+  const sql = `INSERT INTO Collection (user_id, filename, filesize, media_type, title, description, book_genre)
+               VALUES (?, ?, ?, ?, ?, ?, ?)`;
+  const params = [
+    user_id,
+    filename,
+    filesize,
+    media_type,
+    title,
+    description,
+    book_genre,
+  ];
   try {
     const result = await promisePool.execute<ResultSetHeader>(sql, params);
     console.log('result', result);
@@ -334,7 +379,7 @@ const fetchHighestRatedMedia = async (): Promise<MediaItem | undefined> => {
 // Attach a tag to a media item
 const postTagToMedia = async (
   tag_name: string,
-  media_id: number,
+  book_id: number,
 ): Promise<MediaItem | null> => {
   try {
     let tag_id: number = 0;
@@ -358,15 +403,15 @@ const postTagToMedia = async (
       // if tag exists get tag_id from the first result
       tag_id = tagResult[0].tag_id;
     }
-    const [MediaItemTagsResult] = await promisePool.execute<ResultSetHeader>(
-      'INSERT INTO MediaItemTags (tag_id, media_id) VALUES (?, ?)',
-      [tag_id, media_id],
+    const [GenreTagsResult] = await promisePool.execute<ResultSetHeader>(
+      'INSERT INTO GenreTags (tag_id, book_id) VALUES (?, ?)',
+      [tag_id, book_id],
     );
-    if (MediaItemTagsResult.affectedRows === 0) {
+    if (GenreTagsResult.affectedRows === 0) {
       return null;
     }
 
-    return await fetchMediaById(media_id);
+    return await fetchMediaById(book_id);
   } catch (e) {
     console.error('postTagToMedia error', (e as Error).message);
     throw new Error((e as Error).message);
@@ -385,4 +430,5 @@ export {
   fetchHighestRatedMedia,
   putMedia,
   postTagToMedia,
+  ownBookList,
 };

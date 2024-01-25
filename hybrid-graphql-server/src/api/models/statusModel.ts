@@ -1,15 +1,13 @@
 import {ResultSetHeader, RowDataPacket} from 'mysql2';
-import {statusResult} from '@sharedTypes/DBTypes';
+import {Status, statusResult} from '@sharedTypes/DBTypes';
 import promisePool from '../../lib/db';
 import {fetchData} from '../../lib/functions';
 import {MessageResponse} from '@sharedTypes/MessageTypes';
 
-const allStatuses = async (): Promise<statusResult[] | null> => {
+const allStatuses = async (): Promise<Status[] | null> => {
   try {
-    const [rows] = await promisePool.execute<RowDataPacket[] & statusResult[]>(
-      `SELECT Status.status_id, Status.status_name, BookStatus.book_id
-       FROM Status
-       JOIN BookStatus ON Status.status_id = BookStatus.status_id`,
+    const [rows] = await promisePool.execute<RowDataPacket[] & Status[]>(
+      `SELECT * FROM Status;`,
     );
     if (rows.length === 0) {
       return null;

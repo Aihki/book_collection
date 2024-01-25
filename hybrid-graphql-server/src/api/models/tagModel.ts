@@ -20,19 +20,40 @@ const fetchAllTags = async (): Promise<Tag[] | null> => {
 };
 
 // Post a new tag
-const postTag = async (
-  tag: Omit<Tag, 'tag_id'>,
-): Promise<MessageResponse | null> => {
+const postTag = async (tag: Omit<Tag, 'tag_id'>): Promise<Tag | null> => {
   try {
+    // check if tag exists (case insensitive)
+    const sql = promisePool.format('SELECT * FROM Tags WHERE tag_name = ?', [
+      tag.tag_name,
+    ]);
+
+    const [result] = await promisePool.execute<RowDataPacket[]>(sql);
+    if (result.length > 0) {
+      return null;
+    }
+
     const [tagResult] = await promisePool.execute<ResultSetHeader>(
       'INSERT INTO Tags (tag_name) VALUES (?)',
       [tag.tag_name],
     );
+
     if (tagResult.affectedRows === 0) {
       return null;
     }
 
-    return {message: 'Tag created'};
+    const sql2 = promisePool.format('SELECT * FROM Tags WHERE tag_id = ?', [
+      tagResult.insertId,
+    ]);
+
+    const [selectResult] = await promisePool.execute<RowDataPacket[] & Tag[]>(
+      sql2,
+    );
+
+    if (selectResult.length > 0) {
+      return selectResult[0];
+    }
+
+    return null;
   } catch (e) {
     console.error('postTag error', (e as Error).message);
     throw new Error((e as Error).message);
@@ -43,10 +64,10 @@ const postTag = async (
 const fetchTagsByMediaId = async (id: number): Promise<TagResult[] | null> => {
   try {
     const [rows] = await promisePool.execute<RowDataPacket[] & TagResult[]>(
-      `SELECT Tags.tag_id, Tags.tag_name, MediaItemTags.media_id
+      `SELECT Tags.tag_id, Tags.tag_name, GenreTags.media_id
        FROM Tags
-       JOIN MediaItemTags ON Tags.tag_id = MediaItemTags.tag_id
-       WHERE MediaItemTags.media_id = ?`,
+       JOIN GenreTags ON Tags.tag_id = GenreTags.tag_id
+       WHERE GenreTags.media_id = ?`,
       [id],
     );
     if (rows.length === 0) {
@@ -66,7 +87,7 @@ const deleteTag = async (id: number): Promise<MessageResponse | null> => {
     await connection.beginTransaction();
 
     const [mediaItemTagResult] = await connection.execute<ResultSetHeader>(
-      'DELETE FROM MediaItemTags WHERE tag_id = ?',
+      'DELETE FROM GenreTags WHERE tag_id = ?',
       [id],
     );
 

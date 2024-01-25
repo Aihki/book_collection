@@ -9,6 +9,5 @@ type BookStatus {
 }
 
 type Query {
-  statuses: [Status]
-  bookStatuses: [BookStatus]
+  status: [Status]
 }

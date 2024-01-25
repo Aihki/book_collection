@@ -67,7 +67,7 @@ type MediaItemTag = {
   tag_id: number;
 };
 
-type status = {
+type Status = {
   status_id: number;
   status_name: "Want to Read" | "Reading" | "Read" | "Dropped" | "Paused";
 };
@@ -77,8 +77,8 @@ type BookStatus = {
   user_id: number;
 };
 type reviewResult = Review & Rating;
-type bookList = MediaItem & status & BookStatus;
-type statusResult = status & BookStatus;
+type bookList = MediaItem & Status & BookStatus;
+type statusResult = Status & BookStatus;
 type TagResult = MediaItemTag & Tag;
 
 type UploadResult = {
@@ -126,6 +126,7 @@ export type {
   Like,
   Rating,
   Tag,
+  Status,
   MediaItemTag,
   TagResult,
   UploadResult,
