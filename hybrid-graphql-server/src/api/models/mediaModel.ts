@@ -1,7 +1,6 @@
 import {ResultSetHeader, RowDataPacket} from 'mysql2';
 import {
   MediaItem,
-  Status,
   TokenContent,
   bookList,
   statusResult,
@@ -219,6 +218,7 @@ const postMedia = async (
     if (rows.length === 0) {
       return null;
     }
+    console.log('rows', rows[0]);
     return rows[0];
   } catch (e) {
     console.error('error', (e as Error).message);
@@ -274,10 +274,9 @@ const deleteMedia = async (
   user: TokenContent,
   token: string,
 ): Promise<MessageResponse> => {
-  console.log('deleteMedia', id);
+  /*   console.log('deleteMedia', id); */
   const media = await fetchMediaById(id);
-  console.log(media);
-
+  /*   console.log(media); */
   if (!media) {
     return {message: 'Media not found'};
   }
@@ -293,7 +292,7 @@ const deleteMedia = async (
     '',
   );
 
-  console.log(token);
+  /*   console.log(token); */
 
   const connection = await promisePool.getConnection();
 
@@ -309,6 +308,7 @@ const deleteMedia = async (
 
     await connection.execute('DELETE FROM Reviews WHERE book_id = ?;', [id]);
     // ! user_id in SQL so that only the owner of the media item can delete it
+
     const [result] = await connection.execute<ResultSetHeader>(
       'DELETE FROM Collection WHERE book_id = ? and user_id = ?;',
       [id, user.user_id],
@@ -325,12 +325,12 @@ const deleteMedia = async (
         Authorization: 'Bearer ' + token,
       },
     };
-
+    console.log(media.filename);
+    console.log('options', options);
     const deleteResult = await fetchData<MessageResponse>(
       `${process.env.UPLOAD_SERVER}/delete/${media.filename}`,
       options,
     );
-    console.log('deleteResult', deleteResult);
 
     console.log('deleteResult', deleteResult);
     if (deleteResult.message !== 'File deleted') {

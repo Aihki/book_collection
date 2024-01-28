@@ -10,13 +10,13 @@ type MediaItem {
   description: String!
   created_at: String!
   tags: [Tag]
-  status_name: String
+  status_name: String!
   owner: User
 }
 
 type MediaResponse {
   message: String!
-  media: MediaItem!
+  media: MediaItem
 }
 
 type Query {
@@ -32,6 +32,7 @@ input MediaItemInput {
   title: String!
   description: String!
   book_genre: String!
+  status_name: String
 }
 
 input MediaItemUpdateInput {
