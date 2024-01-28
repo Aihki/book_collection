@@ -1,15 +1,14 @@
 import {ResultSetHeader, RowDataPacket} from 'mysql2';
-import {statusResult} from '@sharedTypes/DBTypes';
+import {Status, statusResult} from '@sharedTypes/DBTypes';
 import promisePool from '../../lib/db';
 import {fetchData} from '../../lib/functions';
-import {MessageResponse} from '@sharedTypes/MessageTypes';
+import {StatusResponse} from '@sharedTypes/MessageTypes';
+import {fetchMediaAndStatusById} from './mediaModel';
 
-const allStatuses = async (): Promise<statusResult[] | null> => {
+const allStatuses = async (): Promise<Status[] | null> => {
   try {
-    const [rows] = await promisePool.execute<RowDataPacket[] & statusResult[]>(
-      `SELECT Status.status_id, Status.status_name, BookStatus.book_id
-       FROM Status
-       JOIN BookStatus ON Status.status_id = BookStatus.status_id`
+    const [rows] = await promisePool.execute<RowDataPacket[] & Status[]>(
+      `SELECT * FROM Status;`,
     );
     if (rows.length === 0) {
       return null;
@@ -21,4 +20,29 @@ const allStatuses = async (): Promise<statusResult[] | null> => {
   }
 };
 
-export {allStatuses};
+const putStatus = async (
+  status: Pick<statusResult, 'status_id'>,
+  id: number,
+): Promise<StatusResponse | null> => {
+  try {
+    const rows = promisePool.format(
+      `UPDATE BookStatus SET status_id = ? WHERE book_id = ?;`,
+      [status.status_id, id],
+    );
+    const [result] = await promisePool.execute<ResultSetHeader>(rows);
+    if (result.affectedRows === 0) {
+      return null;
+    }
+
+    const statusItem = await fetchMediaAndStatusById(id);
+    if (statusItem === null) {
+      return null;
+    }
+    return {message: 'Status updated', status: statusItem};
+  } catch (e) {
+    console.error('putStatus error', (e as Error).message);
+    throw new Error((e as Error).message);
+  }
+};
+
+export {allStatuses, putStatus};

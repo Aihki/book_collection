@@ -28,7 +28,7 @@ type MediaItem = {
 
 type Comment = {
   comment_id: number;
-  media_id: number;
+  book_id: number;
   user_id: number;
   comment_text: string;
   created_at: Date;
@@ -36,7 +36,7 @@ type Comment = {
 
 type Like = {
   like_id: number;
-  media_id: number;
+  book_id: number;
   user_id: number;
   created_at: Date;
 };
@@ -63,11 +63,11 @@ type Tag = {
 };
 
 type MediaItemTag = {
-  media_id: number;
+  book_id: number;
   tag_id: number;
 };
 
-type status = {
+type Status = {
   status_id: number;
   status_name: "Want to Read" | "Reading" | "Read" | "Dropped" | "Paused";
 };
@@ -77,8 +77,8 @@ type BookStatus = {
   user_id: number;
 };
 type reviewResult = Review & Rating;
-type bookList = MediaItem & status & BookStatus;
-type statusResult = status & BookStatus;
+type bookList = MediaItem & Status;
+type statusResult = Status & BookStatus;
 type TagResult = MediaItemTag & Tag;
 
 type UploadResult = {
@@ -126,6 +126,7 @@ export type {
   Like,
   Rating,
   Tag,
+  Status,
   MediaItemTag,
   TagResult,
   UploadResult,
@@ -139,4 +140,5 @@ export type {
   bookList,
   reviewResult,
   Review,
+  BookStatus,
 };

@@ -1,0 +1,38 @@
+type User {
+  user_id: ID!
+  username: String!
+  email: String!
+  level_name: String!
+  created_at: String!
+}
+
+type UserResponse {
+  message: String!
+  user: User!
+}
+type LoginResponse {
+  message: String!
+  token: String!
+  user: User!
+}
+
+type Query {
+  users: [User]
+  user(user_id: ID!): User
+  checkUsername(username: String!): Boolean
+  checkEmail(email: String!): Boolean
+  checkToken: User
+}
+
+input InputUser {
+  username: String! @constraint(minLength: 3, maxLength: 255)
+  email: String! @constraint(format: "email")
+  password: String! @constraint(pattern: "(?=.*[A-Z])", minLength: 5)
+}
+
+type Mutation {
+  createUser(input: InputUser!): UserResponse
+  login(username: String!, password: String!): LoginResponse
+  updateUser(input: InputUser!, user_id: ID!): UserResponse
+  deleteUser: UserResponse
+}

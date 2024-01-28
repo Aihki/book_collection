@@ -1,5 +1,4 @@
 import express, {Request, Response} from 'express';
-
 import mediaRoute from './routes/mediaRoute';
 import tagRoute from './routes/tagRoute';
 import statusRoute from './routes/statusRoute';

@@ -1,0 +1,27 @@
+type Status {
+  status_id: ID!
+  status_name: String!
+}
+
+type BookStatus {
+  book_id: ID!
+  status_id: ID!
+  user_id: ID!
+}
+
+type BookStatusResponse {
+  message: String!
+  status: Status!
+}
+
+type Query {
+  status: [Status]
+}
+
+input BookStatusInput {
+  status_id: ID
+}
+
+type Mutation {
+  updateBookStatus(input: BookStatusInput!, book_id: ID!): BookStatusResponse
+}

@@ -1,0 +1,34 @@
+type Rating {
+  rating_id: ID
+  book_id: ID!
+  user_id: ID!
+  rating_value: Int!
+  created_at: String!
+}
+
+type Review {
+  review_id: ID
+  book_id: ID!
+  user_id: ID!
+  review_text: String!
+  created_at: String!
+}
+
+type Query {
+  reviews(book_id: ID!): [Review]
+  ratings(book_id: ID!): [Rating]
+}
+
+input ReviewInput {
+  book_id: ID!
+  review_text: String!
+}
+input RatingInput {
+  book_id: ID!
+  rating_value: Int!
+}
+
+type Mutation {
+  createReview(input: ReviewInput!): Review
+  createRating(input: RatingInput!): Rating
+}

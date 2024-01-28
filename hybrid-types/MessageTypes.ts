@@ -1,4 +1,4 @@
-import { MediaItem, UserWithNoPassword } from './DBTypes';
+import { MediaItem, Status, UserWithNoPassword } from "./DBTypes";
 
 type MessageResponse = {
   message: string;
@@ -10,6 +10,10 @@ type ErrorResponse = MessageResponse & {
 
 type MediaResponse = MessageResponse & {
   media: MediaItem | MediaItem[];
+};
+
+type StatusResponse = MessageResponse & {
+  status: Status | Status[];
 };
 
 // for auth server
@@ -44,4 +48,5 @@ export type {
   UploadResponse,
   UserResponse,
   UserDeleteResponse,
+  StatusResponse,
 };
