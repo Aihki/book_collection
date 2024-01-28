@@ -1,3 +1,4 @@
+import {Token} from './../../../../upload-server/node_modules/acorn/dist/acorn.d';
 import {MediaItem} from '@sharedTypes/DBTypes';
 import {
   deleteMedia,
@@ -17,26 +18,37 @@ export default {
     mediaItems: async () => {
       return await fetchAllMedia();
     },
+    /*   ownBookList: async (_parent: undefined, args: {}, contex: MyContext) => {
+      if (!contex.user || !contex.user.user_id) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'NOT_AUTHORIZED'},
+        });
+      }
+      const id = contex.user.user_id;
+      return await ownBookList(id);
+    }, */
     ownBookList: async (_parent: undefined, args: {user_id: string}) => {
-      console.log('ownBookList args', args);
       const id = Number(args.user_id);
       return await ownBookList(id);
     },
 
     mediaitem: async (_parent: undefined, args: {book_id: string}) => {
-      console.log('mediaItem args', args);
       const id = Number(args.book_id);
       return await fetchMediaById(id);
     },
     mediaItemsByTag: async (_parent: undefined, args: {tag: string}) => {
-      console.log('tag parent', parent);
       return await fetchMediaByTag(args.tag);
     },
   },
   Mutation: {
     createMediaItem: async (
       _parent: undefined,
-      args: {input: Omit<MediaItem, 'book_id' | 'created_at' | 'thumbnail'>},
+      args: {
+        input: Omit<
+          MediaItem,
+          'book_id' | 'created_at' | 'thumbnail' | 'user_id'
+        >;
+      },
       context: MyContext,
     ) => {
       if (!context.user || !context.user.user_id) {
@@ -44,7 +56,11 @@ export default {
           extensions: {code: 'NOT_AUTHORIZED'},
         });
       }
-      return await postMedia(args.input);
+      const userdata = {
+        ...args.input,
+        user_id: context.user.user_id,
+      };
+      return await postMedia(userdata);
     },
 
     addTagToMediaItem: async (
@@ -63,8 +79,22 @@ export default {
       return await putMedia(args.input, Number(args.book_id));
     },
 
-    /*deleteMediaItem: async (_parent: undefined, args: undefined) => {
-      return await deleteMedia();
-    }, */
+    deleteMediaItem: async (
+      _parent: undefined,
+      args: {book_id: string},
+      context: MyContext,
+    ) => {
+      if (!context.user || !context.user.user_id) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'NOT_AUTHORIZED'},
+        });
+      }
+
+      return await deleteMedia(
+        Number(args.book_id),
+        context.user,
+        context.user.token,
+      );
+    },
   },
 };

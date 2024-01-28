@@ -32,6 +32,7 @@ const bookRatings = async (id: number): Promise<Rating[] | null> => {
       `,
       [id],
     );
+    console.log(results);
     if (results.length === 0) {
       return null;
     }
@@ -46,8 +47,21 @@ const postRating = async (
   rating: Omit<Rating, 'rating_id' | 'created_at'>,
 ): Promise<Rating | null> => {
   const {book_id, user_id, rating_value} = rating;
-  console.log(rating);
   try {
+    // Tarkista, onko samalla book_id:llä jo arviointi
+    const [existingResults] = await promisePool.execute<
+      RowDataPacket[] & Rating[]
+    >(
+      `
+      SELECT * FROM Ratings WHERE book_id = ?;
+      `,
+      [book_id],
+    );
+    // Jos arviointi löytyy, palauta null tai tee tarvittavat toimenpiteet
+    if (existingResults.length > 0) {
+      return null;
+    }
+    // Lisää uusi arviointi tietokantaan
     const [results] = await promisePool.execute<RowDataPacket[] & Rating[]>(
       `
       INSERT INTO Ratings (book_id, user_id, rating_value)
@@ -66,8 +80,21 @@ const postReview = async (
   review: Omit<Review, 'review_id' | 'created_at'>,
 ): Promise<Review | null> => {
   const {book_id, user_id, review_text} = review;
-  console.log(review);
   try {
+    // Tarkista, onko samalla book_id:llä ja user_id:llä jo arvostelua
+    const [existingResults] = await promisePool.execute<
+      RowDataPacket[] & Review[]
+    >(
+      `
+      SELECT * FROM Reviews WHERE book_id = ?;
+      `,
+      [book_id],
+    );
+    // Jos arvostelu löytyy, palauta null tai tee tarvittavat toimenpiteet
+    if (existingResults.length > 0) {
+      return null;
+    }
+    // Lisää uusi arvostelu tietokantaan
     const [results] = await promisePool.execute<RowDataPacket[] & Review[]>(
       `
       INSERT INTO Reviews (book_id, user_id, review_text)
@@ -75,7 +102,6 @@ const postReview = async (
       `,
       [book_id, user_id, review_text],
     );
-    console.log(results);
     return results[0];
   } catch (e) {
     console.error('addReviewById error', (e as Error).message);

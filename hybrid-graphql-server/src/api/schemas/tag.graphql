@@ -2,6 +2,11 @@ type Tag {
   tag_id: ID!
   tag_name: String!
 }
+
+type Query {
+  tags: [Tag]
+  tag(tag_id: ID!): Tag
+}
 type Message {
   message: String!
 }
@@ -9,10 +14,6 @@ type Message {
 input TagInput {
   tag_id: ID!
   tag_name: String!
-}
-
-type Query {
-  tags: [Tag]
 }
 
 type Mutation {

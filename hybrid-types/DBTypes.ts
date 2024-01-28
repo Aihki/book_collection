@@ -28,7 +28,7 @@ type MediaItem = {
 
 type Comment = {
   comment_id: number;
-  media_id: number;
+  book_id: number;
   user_id: number;
   comment_text: string;
   created_at: Date;
@@ -36,7 +36,7 @@ type Comment = {
 
 type Like = {
   like_id: number;
-  media_id: number;
+  book_id: number;
   user_id: number;
   created_at: Date;
 };
@@ -63,7 +63,7 @@ type Tag = {
 };
 
 type MediaItemTag = {
-  media_id: number;
+  book_id: number;
   tag_id: number;
 };
 
@@ -77,7 +77,7 @@ type BookStatus = {
   user_id: number;
 };
 type reviewResult = Review & Rating;
-type bookList = MediaItem & Status & BookStatus;
+type bookList = MediaItem & Status;
 type statusResult = Status & BookStatus;
 type TagResult = MediaItemTag & Tag;
 
@@ -140,4 +140,5 @@ export type {
   bookList,
   reviewResult,
   Review,
+  BookStatus,
 };

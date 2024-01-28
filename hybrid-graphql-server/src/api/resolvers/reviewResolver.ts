@@ -5,16 +5,16 @@ import {
   postRating,
   postReview,
 } from '../models/reviewModel';
+import {MyContext} from '../../local-types';
+import {GraphQLError} from 'graphql';
 
 export default {
   Query: {
     reviews: async (_parent: undefined, arg: {book_id: string}) => {
       const id = Number(arg.book_id);
-      console.log('review id', id);
       return await bookReviews(id);
     },
     ratings: async (_parent: undefined, arg: {book_id: string}) => {
-      console.log('rating id', arg.book_id);
       const id = Number(arg.book_id);
       return await bookRatings(id);
     },
@@ -22,15 +22,36 @@ export default {
   Mutation: {
     createReview: async (
       _parent: undefined,
-      args: {input: Omit<Review, 'review_id' | 'created_at'>},
+      args: {input: Omit<Review, 'review_id' | 'created_at' | 'user_id'>},
+      context: MyContext,
     ) => {
-      return await postReview(args.input);
+      if (!context.user || !context.user.user_id) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'NOT_AUTHORIZED'},
+        });
+      }
+      const userData = {
+        ...args.input,
+        user_id: context.user.user_id,
+      };
+      console.log(userData);
+      return await postReview(userData);
     },
     createRating: async (
       _parent: undefined,
-      args: {input: Omit<Rating, 'rating_id' | 'created_at'>},
+      args: {input: Omit<Rating, 'rating_id' | 'created_at' | 'user_id'>},
+      context: MyContext,
     ) => {
-      return await postRating(args.input);
+      if (!context.user || !context.user.user_id) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'NOT_AUTHORIZED'},
+        });
+      }
+      const userData = {
+        ...args.input,
+        user_id: context.user.user_id,
+      };
+      return await postRating(userData);
     },
   },
 };

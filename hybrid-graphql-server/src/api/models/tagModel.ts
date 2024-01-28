@@ -64,10 +64,10 @@ const postTag = async (tag: Omit<Tag, 'tag_id'>): Promise<Tag | null> => {
 const fetchTagsByMediaId = async (id: number): Promise<TagResult[] | null> => {
   try {
     const [rows] = await promisePool.execute<RowDataPacket[] & TagResult[]>(
-      `SELECT Tags.tag_id, Tags.tag_name, GenreTags.media_id
+      `SELECT Tags.tag_id, Tags.tag_name, GenreTags.book_id
        FROM Tags
        JOIN GenreTags ON Tags.tag_id = GenreTags.tag_id
-       WHERE GenreTags.media_id = ?`,
+       WHERE GenreTags.book_id = ?`,
       [id],
     );
     if (rows.length === 0) {

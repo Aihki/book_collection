@@ -10,7 +10,10 @@ type MediaItem {
   description: String!
   created_at: String!
   tags: [Tag]
+  status_name: String
+  owner: User
 }
+
 type MediaResponse {
   message: String!
   media: MediaItem!
@@ -23,7 +26,6 @@ type Query {
   ownBookList(user_id: ID!): [MediaItem]
 }
 input MediaItemInput {
-  user_id: ID!
   filename: String!
   filesize: Int!
   media_type: String!

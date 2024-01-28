@@ -21,12 +21,10 @@ type Query {
 
 input ReviewInput {
   book_id: ID!
-  user_id: ID!
   review_text: String!
 }
 input RatingInput {
   book_id: ID!
-  user_id: ID!
   rating_value: Int!
 }
 
