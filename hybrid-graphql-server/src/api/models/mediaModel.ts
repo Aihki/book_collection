@@ -187,9 +187,10 @@ const postMedia = async (
     title,
     description,
     book_genre,
+    series_name,
   } = media;
-  const sql = `INSERT INTO Collection (user_id, filename, filesize, media_type, title, description, book_genre)
-               VALUES (?, ?, ?, ?, ?, ?, ?)`;
+  const sql = `INSERT INTO Collection (user_id, filename, filesize, media_type, title, description, book_genre, series_name)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   const params = [
     user_id,
     filename,
@@ -198,6 +199,7 @@ const postMedia = async (
     title,
     description,
     book_genre,
+    series_name,
   ];
   try {
     const result = await promisePool.execute<ResultSetHeader>(sql, params);
@@ -298,16 +300,12 @@ const deleteMedia = async (
 
   try {
     await connection.beginTransaction();
-    /*
-    await connection.execute('DELETE FROM Likes WHERE book_id = ?;', [id]);
-    await connection.execute('DELETE FROM Comments WHERE book_id = ?;', [id]); */
 
     await connection.execute('DELETE FROM BookStatus WHERE book_id = ?;', [id]);
 
     await connection.execute('DELETE FROM Ratings WHERE book_id = ?;', [id]);
 
     await connection.execute('DELETE FROM Reviews WHERE book_id = ?;', [id]);
-    // ! user_id in SQL so that only the owner of the media item can delete it
 
     const [result] = await connection.execute<ResultSetHeader>(
       'DELETE FROM Collection WHERE book_id = ? and user_id = ?;',

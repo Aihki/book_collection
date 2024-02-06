@@ -11,6 +11,7 @@ type MediaItem {
   created_at: String!
   tags: [Tag]
   status_name: String!
+  series_name: String
   owner: User
 }
 
@@ -32,6 +33,7 @@ input MediaItemInput {
   title: String!
   description: String!
   book_genre: String!
+  series_name: String
   status_name: String
 }
 

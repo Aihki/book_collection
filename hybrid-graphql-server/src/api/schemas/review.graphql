@@ -14,6 +14,16 @@ type Review {
   created_at: String!
 }
 
+type ReviewResponse {
+  message: String!
+  review: Review!
+}
+
+type RatingResponse {
+  message: String!
+  rating: Rating!
+}
+
 type Query {
   reviews(book_id: ID!): [Review]
   ratings(book_id: ID!): [Rating]
@@ -29,6 +39,6 @@ input RatingInput {
 }
 
 type Mutation {
-  createReview(input: ReviewInput!): Review
-  createRating(input: RatingInput!): Rating
+  createReview(input: ReviewInput!): ReviewResponse
+  createRating(input: RatingInput!): RatingResponse
 }

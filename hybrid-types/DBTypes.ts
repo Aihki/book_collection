@@ -17,6 +17,7 @@ type MediaItem = {
   user_id: number;
   filename: string;
   book_genre: string;
+  series_name: string | null;
   thumbnail: string;
   filesize: number;
   media_type: string;
