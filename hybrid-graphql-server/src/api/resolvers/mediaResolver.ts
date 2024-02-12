@@ -1,32 +1,34 @@
-import {Token} from './../../../../upload-server/node_modules/acorn/dist/acorn.d';
 import {MediaItem} from '@sharedTypes/DBTypes';
 import {
   deleteMedia,
   fetchAllMedia,
   fetchMediaById,
-  fetchMediaByTag,
   ownBookList,
   postMedia,
-  postTagToMedia,
   putMedia,
 } from '../models/mediaModel';
 import {MyContext} from '../../local-types';
 import {GraphQLError} from 'graphql';
+import { bookReviews } from '../models/reviewModel';
+import { bookRatings } from '../models/ratingModel';
 
 export default {
+Rating:{
+  book: async (parent: {book_id: string}) => {
+    return await bookRatings(Number(parent.book_id));
+  },
+},
+Review:{
+  book: async (parent: {book_id: string}) => {
+    return await bookReviews(Number(parent.book_id));
+  },
+},
+
   Query: {
     mediaItems: async () => {
+      console.log('fetching media items')
       return await fetchAllMedia();
     },
-    /*   ownBookList: async (_parent: undefined, args: {}, contex: MyContext) => {
-      if (!contex.user || !contex.user.user_id) {
-        throw new GraphQLError('Not authorized', {
-          extensions: {code: 'NOT_AUTHORIZED'},
-        });
-      }
-      const id = contex.user.user_id;
-      return await ownBookList(id);
-    }, */
     ownBookList: async (_parent: undefined, args: {user_id: string}) => {
       const id = Number(args.user_id);
       return await ownBookList(id);
@@ -35,9 +37,6 @@ export default {
     mediaitem: async (_parent: undefined, args: {book_id: string}) => {
       const id = Number(args.book_id);
       return await fetchMediaById(id);
-    },
-    mediaItemsByTag: async (_parent: undefined, args: {tag: string}) => {
-      return await fetchMediaByTag(args.tag);
     },
   },
   Mutation: {
@@ -63,15 +62,8 @@ export default {
       return await postMedia(userdata);
     },
 
-    addTagToMediaItem: async (
-      _parent: undefined,
-      args: {input: {book_id: string; tag_name: string}},
-    ) => {
-      return await postTagToMedia(
-        args.input.tag_name,
-        Number(args.input.book_id),
-      );
-    },
+
+
     updateMediaItem: async (
       _parent: undefined,
       args: {input: Pick<MediaItem, 'title' | 'description'>; book_id: string},

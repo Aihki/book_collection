@@ -1,14 +1,13 @@
 import {ResultSetHeader, RowDataPacket} from 'mysql2';
-import {Rating, Review, UserLevel, reviewResult} from '@sharedTypes/DBTypes';
+import {Rating, UserLevel} from '@sharedTypes/DBTypes';
 import promisePool from '../../lib/db';
-import {fetchData} from '../../lib/functions';
 import {MessageResponse} from '@sharedTypes/MessageTypes';
 
-const bookReviews = async (book_id: number): Promise<Review[] | null> => {
+const bookRatings = async (book_id: number): Promise<Rating[] | null> => {
   try {
-    const [results] = await promisePool.execute<RowDataPacket[] & Review[]>(
+    const [results] = await promisePool.execute<RowDataPacket[] & Rating[]>(
       `
-      SELECT * FROM Reviews
+      SELECT * FROM Ratings
       WHERE book_id = ?;
       `,
       [book_id],
@@ -24,19 +23,19 @@ const bookReviews = async (book_id: number): Promise<Review[] | null> => {
 };
 
 
-const postReview = async (
+const postRating = async (
   book_id: number,
   user_id: number,
-  review_text: string,
+  rating: number,
   level_name: UserLevel['level_name'],
 ): Promise<MessageResponse | null> => {
   try {
     // Tarkista, onko samalla book_id:llä ja user_id:llä jo arvostelua
     const [existingResults] = await promisePool.execute<
-      RowDataPacket[] & Review[]
+      RowDataPacket[] & Rating[]
     >(
       `
-      SELECT * FROM Reviews WHERE book_id = ?;
+      SELECT * FROM Ratings WHERE book_id = ?;
       `,
       [book_id],
     );
@@ -47,10 +46,10 @@ const postReview = async (
     // Lisää uusi arvostelu tietokantaan
     const [results] = await promisePool.execute<ResultSetHeader>(
       `
-      INSERT INTO Reviews (book_id, user_id, review_text)
+      INSERT INTO Ratings (book_id, user_id, rating_value)
       VALUES (?, ?, ?);
       `,
-      [book_id, user_id, review_text],
+      [book_id, user_id, rating],
     );
     if (results.affectedRows === 0) {
       return null;
@@ -63,4 +62,4 @@ const postReview = async (
   }
 };
 
-export {bookReviews, postReview};
+export {bookRatings, postRating};

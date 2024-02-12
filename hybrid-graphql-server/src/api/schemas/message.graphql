@@ -1,0 +1,14 @@
+type Message {
+  message: String!
+}
+
+type LoginResponse {
+  message: String!
+  token: String!
+  user: User!
+}
+
+type AvailabeResponse {
+  message: String!
+  available: Boolean!
+}

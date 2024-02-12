@@ -6,21 +6,11 @@ type User {
   created_at: String!
 }
 
-type UserResponse {
-  message: String!
-  user: User!
-}
-type LoginResponse {
-  message: String!
-  token: String!
-  user: User!
-}
-
 type Query {
-  users: [User]
-  user(user_id: ID!): User
-  checkUsername(username: String!): Boolean
-  checkEmail(email: String!): Boolean
+  users: [User!]!
+  user(user_id: ID!): User!
+  checkUsername(username: String!): AvailabeResponse!
+  checkEmail(email: String!): AvailabeResponse!
   checkToken: User
 }
 
@@ -31,8 +21,8 @@ input InputUser {
 }
 
 type Mutation {
-  createUser(input: InputUser!): UserResponse
+  createUser(input: InputUser!): User!
   login(username: String!, password: String!): LoginResponse
-  updateUser(input: InputUser!, user_id: ID!): UserResponse
-  deleteUser: UserResponse
+  updateUser(input: InputUser!, user_id: ID!): User!
+  deleteUser: Message!
 }

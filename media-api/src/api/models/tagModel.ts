@@ -8,7 +8,7 @@ import {MessageResponse} from '@sharedTypes/MessageTypes';
 const fetchAllTags = async (): Promise<TagResult[] | null> => {
   try {
     const [rows] = await promisePool.execute<RowDataPacket[] & TagResult[]>(
-      `SELECT Tags.tag_id, Tags.tag_name, MediaItemTags.media_id
+      `SELECT Tags.tag_id, Tags.tag_name, MediaItemTags.book_id
        FROM Tags
        JOIN MediaItemTags ON Tags.tag_id = MediaItemTags.tag_id`
     );
@@ -38,8 +38,8 @@ const postTag = async (
     }
 
     const [mediaItemTagResult] = await connection.execute<ResultSetHeader>(
-      'INSERT INTO MediaItemTags (media_id, tag_id) VALUES (?, ?)',
-      [tag.media_id, tagResult.insertId]
+      'INSERT INTO MediaItemTags (book_id, tag_id) VALUES (?, ?)',
+      [tag.book_id, tagResult.insertId]
     );
 
     await connection.commit();
@@ -62,7 +62,7 @@ const postTag = async (
 const fetchMediaByTag = async (tag: string): Promise<TagResult[] | null> => {
   try {
     const [rows] = await promisePool.execute<RowDataPacket[] & TagResult[]>(
-      `SELECT Tags.tag_id, Tags.tag_name, MediaItemTags.media_id
+      `SELECT Tags.tag_id, Tags.tag_name, MediaItemTags.book_id
        FROM Tags
        JOIN MediaItemTags ON Tags.tag_id = MediaItemTags.tag_id
        WHERE Tags.tag_name = ?`,
@@ -82,10 +82,10 @@ const fetchMediaByTag = async (tag: string): Promise<TagResult[] | null> => {
 const fetchTagsByMediaId = async (id: number): Promise<TagResult[] | null> => {
   try {
     const [rows] = await promisePool.execute<RowDataPacket[] & TagResult[]>(
-      `SELECT Tags.tag_id, Tags.tag_name, MediaItemTags.media_id
+      `SELECT Tags.tag_id, Tags.tag_name, MediaItemTags.book_id
        FROM Tags
        JOIN MediaItemTags ON Tags.tag_id = MediaItemTags.tag_id
-       WHERE MediaItemTags.media_id = ?`,
+       WHERE MediaItemTags.book_id = ?`,
       [id]
     );
     if (rows.length === 0) {

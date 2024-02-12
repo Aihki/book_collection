@@ -20,15 +20,25 @@ const fetchAllMedia = async (): Promise<MediaItem[] | null> => {
   const uploadPath = process.env.UPLOAD_URL;
   try {
     const [rows] = await promisePool.execute<RowDataPacket[] & MediaItem[]>(
-      `SELECT *,
-      CONCAT(?, filename) AS filename,
-      CONCAT(?, CONCAT(filename, "-thumb.png")) AS thumbnail
-      FROM Collection`,
+      `SELECT c.*,
+        s.status_name,
+        u.username,
+        r.review_text,
+        ra.rating_value,
+        CONCAT(?, c.filename) AS filename,
+        CONCAT(?, CONCAT(c.filename, "-thumb.png")) AS thumbnail
+        FROM Collection c
+        LEFT JOIN Reviews r ON c.book_id = r.book_id
+        LEFT JOIN Ratings ra ON c.book_id = ra.book_id
+        LEFT JOIN BookStatus bs ON c.book_id = bs.book_id
+        LEFT JOIN Status s ON bs.status_id = s.status_id
+        LEFT JOIN Users u ON c.user_id = u.user_id;`,
       [uploadPath, uploadPath],
     );
     if (rows.length === 0) {
       return null;
     }
+    console.log('fetchAllMedia', rows);
     return rows;
   } catch (e) {
     console.error('fetchAllMedia error', (e as Error).message);
@@ -41,26 +51,28 @@ const fetchAllMedia = async (): Promise<MediaItem[] | null> => {
 //u = users table
 const ownBookList = async (id: number): Promise<bookList[] | null> => {
   try {
-    console.log('ownBookList id', id);
     const [rows] = await promisePool.execute<RowDataPacket[] & bookList[]>(
       `SELECT c.*,
-      s.status_name,
-      u.username,
-      u.email
-      FROM Collection c
-      LEFT JOIN BookStatus bs ON c.book_id = bs.book_id
-      LEFT JOIN Status s ON bs.status_id = s.status_id
-      LEFT JOIN Users u ON c.user_id = u.user_id
-      WHERE c.user_id = ?;`,
+        s.status_name,
+        u.username,
+        r.review_text,
+        ra.rating_value
+        FROM Collection c
+        LEFT JOIN Reviews r ON c.book_id = r.book_id
+        LEFT JOIN Ratings ra ON c.book_id = ra.book_id
+        LEFT JOIN BookStatus bs ON c.book_id = bs.book_id
+        LEFT JOIN Status s ON bs.status_id = s.status_id
+        LEFT JOIN Users u ON c.user_id = u.user_id
+        WHERE c.user_id = ?;`,
       [id],
     );
+
     if (rows.length === 0) {
       return null;
     }
-    console.log('ownBookList rows', rows);
     return rows;
   } catch (e) {
-    console.error(' own booklist error error', (e as Error).message);
+    console.error(' ownbooklist error error', (e as Error).message);
     throw new Error((e as Error).message);
   }
 };
@@ -178,7 +190,6 @@ const fetchMediaAndStatusById = async (
 const postMedia = async (
   media: Omit<MediaItem, 'book_id' | 'created_at' | 'thumbnail'>,
 ): Promise<MediaItem | null> => {
-  console.log('postMedia', media);
   const {
     user_id,
     filename,
@@ -203,7 +214,6 @@ const postMedia = async (
   ];
   try {
     const result = await promisePool.execute<ResultSetHeader>(sql, params);
-    console.log('result', result);
     const addSatus = await promisePool.execute<ResultSetHeader>(
       `INSERT INTO BookStatus (book_id, status_id)
       VALUES (?, 4)`,
@@ -220,7 +230,6 @@ const postMedia = async (
     if (rows.length === 0) {
       return null;
     }
-    console.log('rows', rows[0]);
     return rows[0];
   } catch (e) {
     console.error('error', (e as Error).message);
@@ -247,7 +256,6 @@ const putMedia = async (
       [media, id],
     );
     const result = await promisePool.execute<ResultSetHeader>(sql);
-    console.log('result', result);
     if (result[0].affectedRows === 0) {
       return null;
     }

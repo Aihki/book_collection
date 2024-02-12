@@ -17,14 +17,17 @@ type MediaItem = {
   user_id: number;
   filename: string;
   book_genre: string;
-  series_name: string | null;
-  thumbnail: string;
+  series_name: string ;
+  thumbnail: string;  
   filesize: number;
   media_type: string;
   title: string;
   description: string | null;
   created_at: Date | string;
-  app_id: string;
+  owner: User;
+  rating: Rating;
+  review: Review;
+  Status?: Status;
 };
 
 type Comment = {
@@ -72,11 +75,13 @@ type Status = {
   status_id: number;
   status_name: "Want to Read" | "Reading" | "Read" | "Dropped" | "Paused";
 };
+
 type BookStatus = {
   book_id: number;
   status_id: number;
   user_id: number;
 };
+
 type reviewResult = Review & Rating;
 type bookList = MediaItem & Status;
 type statusResult = Status & BookStatus;

@@ -1,0 +1,16 @@
+type Rating {
+  rating_id: ID!
+  book: MediaItem!
+  user: User!
+  rating_value: Int! @constraint(min: 1, max: 5)
+  created_at: String!
+}
+
+type Query {
+  ratings(book_id: ID!): [Rating]!
+}
+
+type Mutation {
+  addRating(book_id: ID!, rating: Int!):Message
+}
+
