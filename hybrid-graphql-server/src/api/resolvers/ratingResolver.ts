@@ -1,25 +1,23 @@
-
 import {MyContext} from '../../local-types';
 import {GraphQLError} from 'graphql';
 import { bookRatings, postRating } from '../models/ratingModel';
 
 export default {
-
   MediaItem: {
-    ratings: async (parent: {book_id: string}) => {
-      return await bookRatings(Number(parent.book_id));
+    rating: async (parent: {book_id: string}) => {
+      return await bookRatings(parent.book_id);
     },
   },
   Query: {
-    ratings: async (_parent: undefined, arg: {book_id: string}) => {
-      const id = Number(arg.book_id);
+    rating: async (_parent: undefined, arg: {book_id: string}) => {
+      const id = arg.book_id;
       return await bookRatings(id);
     },
   },
   Mutation: {
     addRating: async (
       _parent: undefined,
-      args: {book_id: string;  rating: string; },
+      args: {book_id: string;  rating_value: number; },
       context: MyContext,
     ) => {
       if (!context.user || !context.user.user_id) {
@@ -29,9 +27,9 @@ export default {
       }
       const user_id = context.user.user_id;
       return await postRating(
-        Number(args.book_id),
+        args.book_id,
         user_id,
-        Number(args.rating),
+        args.rating_value,
         context.user.level_name,
       );
 

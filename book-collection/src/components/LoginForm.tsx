@@ -1,57 +1,52 @@
-import { useNavigate } from "react-router-dom";
-import { useAuthentication } from "../hooks/apiHooks";
 import { useForm } from "../hooks/formHooks";
-import { Credentials } from '../types/LocalTypes';
+import { Credentials } from "../types/LocalTypes";
+import { useUserContext } from "../hooks/contexHooks";
+
 
 const LoginForm = () => {
-  const {postLogin} = useAuthentication();
-  const navigate = useNavigate();
-  const initValues: Credentials = {
-    username: "",
-    password: "",
-  };
-  const doLogin = async () => {
-    try {
-      const loginResult = await postLogin(inputs as Credentials);
-      if (loginResult){
-      localStorage.setItem('token', loginResult.token);
-      navigate('/');
-      }
-    } catch (error) {
-      console.error((error as Error).message);
-    }
-  }
+const {handleLogin} = useUserContext();
 
-  const {handleSubmit,handleInputChange, inputs} = useForm(doLogin, initValues);
 
-    return (
-      <>
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="UserWithLevelname">Username</label>
-            <input
-              name="username"
-              type="text"
-              id="UserWithLevelname"
-              onChange={handleInputChange}
-              autoComplete="username"
-            />
-          </div>
-          <div>
-            <label htmlFor="loginpassword">Password</label>
-            <input
-              name="password"
-              type="password"
-              id="loginpassword"
-              onChange={handleInputChange}
-              autoComplete="current-password"
-            />
-          </div>
-          <button type="submit">Login</button>
-        </form>
-      </>
-    );
-  };
+const initValues: Credentials = {
+  username: "",
+  password: "",
+};
+const doLogin = async () => {
+    handleLogin(inputs as Credentials);
+}
 
-  export default LoginForm;
+const {handleSubmit,handleInputChange, inputs} = useForm(doLogin, initValues);
+
+  return (
+    <>
+      <h3 className="text-3xl">Login</h3>
+      <form onSubmit={handleSubmit}>
+        <div className="flex w-4/5">
+          <label className="w-1/3 p-6 text-end" htmlFor="UserWithLevelname">Username</label>
+          <input className="m-3 w-2/3 rounded-md border-slate-500 p3 text-slate-950"
+            name="username"
+            type="text"
+            id="UserWithLevelname"
+            onChange={handleInputChange}
+            autoComplete="username"
+          />
+        </div>
+        <div className="flex w-4/5">
+          <label className="w-1/3 p-6 text-end" htmlFor="loginpassword">Password</label>
+          <input className="m-3 w-2/3 rounded-md border-slate-500 p3 text-slate-950"
+            name="password"
+            type="password"
+            id="loginpassword"
+            onChange={handleInputChange}
+            autoComplete="current-password"
+          />
+        </div>
+        <div className="flex w-4/5 justify-end">
+        <button className="m-3 w-1/3 rounded-md bg-slate-750 p3" type="submit">Login</button>
+        </div>
+      </form>
+    </>
+  );
+};
+
+export default LoginForm;

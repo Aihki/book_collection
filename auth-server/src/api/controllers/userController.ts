@@ -1,5 +1,3 @@
-// Description: This file contains the functions for the user routes
-
 import {NextFunction, Request, Response} from 'express';
 import CustomError from '../../classes/CustomError';
 import bcrypt from 'bcryptjs';
@@ -21,7 +19,7 @@ const salt = bcrypt.genSaltSync(12);
 const userListGet = async (
   req: Request,
   res: Response<UserWithNoPassword[]>,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const users = await getAllUsers();
@@ -37,20 +35,21 @@ const userListGet = async (
 };
 
 const userGet = async (
-  req: Request<{id: number}>,
+  req: Request<{id: string}>,
   res: Response<UserWithNoPassword>,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const messages: string = errors
       .array()
-      .map((error) => `${error.msg}: ${error.param}`)
+      .map((error) => `${error.msg}: ${error.type === 'field' && error.path}`)
       .join(', ');
-    console.log('userGet validation', messages);
+    console.log('login validation', messages);
     next(new CustomError(messages, 400));
     return;
   }
+
   try {
     const user = await getUserById(req.params.id);
     if (user === null) {
@@ -66,13 +65,15 @@ const userGet = async (
 const userPost = async (
   req: Request<{}, {}, User>,
   res: Response<UserResponse>,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const messages: string = errors
       .array()
-      .map((error) => `${error.msg}: ${error.param}`)
+      .map(
+        (error) => error.type === 'field' && `${error.path}: ${error.location}`,
+      )
       .join(', ');
     console.log('userPost validation', messages);
     next(new CustomError(messages, 400));
@@ -104,13 +105,15 @@ const userPost = async (
 const userPut = async (
   req: Request<{}, {}, User>,
   res: Response<UserResponse, {user: TokenContent}>,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const messages: string = errors
       .array()
-      .map((error) => `${error.msg}: ${error.param}`)
+      .map(
+        (error) => error.type === 'field' && `${error.path}: ${error.location}`,
+      )
       .join(', ');
     console.log('userPut validation', messages);
     next(new CustomError(messages, 400));
@@ -149,19 +152,19 @@ const userPut = async (
 const userDelete = async (
   req: Request,
   res: Response<UserDeleteResponse, {user: TokenContent}>,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const userFromToken = res.locals.user;
     console.log('user from token', userFromToken);
 
-    const result = await deleteUser(userFromToken.user_id);
+    const result = await deleteUser(Number(userFromToken.user_id));
 
     if (!result) {
       next(new CustomError('User not found', 404));
       return;
     }
-
+    console.log(result);
     res.json(result);
   } catch (error) {
     next(new CustomError((error as Error).message, 500));
@@ -171,13 +174,15 @@ const userDelete = async (
 const userPutAsAdmin = async (
   req: Request<{id: string}, {}, User>,
   res: Response<UserResponse, {user: TokenContent}>,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const messages: string = errors
       .array()
-      .map((error) => `${error.msg}: ${error.param}`)
+      .map(
+        (error) => error.type === 'field' && `${error.path}: ${error.location}`,
+      )
       .join(', ');
     console.log('userPutAsAdmin validation', messages);
     next(new CustomError(messages, 400));
@@ -194,7 +199,7 @@ const userPutAsAdmin = async (
       user.password = await bcrypt.hash(user.password, salt);
     }
 
-    const result = await modifyUser(user, Number(req.params.id));
+    const result = await modifyUser(user, req.params.id);
 
     if (!result) {
       next(new CustomError('User not found', 404));
@@ -214,13 +219,15 @@ const userPutAsAdmin = async (
 const userDeleteAsAdmin = async (
   req: Request<{id: string}>,
   res: Response<UserDeleteResponse, {user: TokenContent}>,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const messages: string = errors
       .array()
-      .map((error) => `${error.msg}: ${error.param}`)
+      .map(
+        (error) => error.type === 'field' && `${error.path}: ${error.location}`,
+      )
       .join(', ');
     console.log('userDeleteAsAdmin validation', messages);
     next(new CustomError(messages, 400));
@@ -249,10 +256,9 @@ const userDeleteAsAdmin = async (
 const checkToken = async (
   req: Request,
   res: Response<UserResponse, {user: TokenContent}>,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const userFromToken = res.locals.user;
-  // check if user exists in database
   const user = await getUserById(userFromToken.user_id);
   if (!user) {
     next(new CustomError('User not found', 404));
@@ -269,13 +275,15 @@ const checkToken = async (
 const checkEmailExists = async (
   req: Request<{email: string}>,
   res: Response<{available: boolean}>,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const messages: string = errors
       .array()
-      .map((error) => `${error.msg}: ${error.param}`)
+      .map(
+        (error) => error.type === 'field' && `${error.path}: ${error.location}`,
+      )
       .join(', ');
     console.log('checkEmailExists validation', messages);
     next(new CustomError(messages, 400));
@@ -283,8 +291,8 @@ const checkEmailExists = async (
   }
 
   try {
+    console.log('test email check', req.params.email);
     const user = await getUserByEmail(req.params.email);
-    console.log(user);
     res.json({available: user ? false : true});
   } catch (error) {
     next(new CustomError((error as Error).message, 500));
@@ -294,13 +302,15 @@ const checkEmailExists = async (
 const checkUsernameExists = async (
   req: Request<{username: string}>,
   res: Response<{available: boolean}>,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const messages: string = errors
       .array()
-      .map((error) => `${error.msg}: ${error.param}`)
+      .map(
+        (error) => error.type === 'field' && `${error.path}: ${error.location}`,
+      )
       .join(', ');
     console.log('checkUsernameExists validation', messages);
     next(new CustomError(messages, 400));

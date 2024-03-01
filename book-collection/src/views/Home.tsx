@@ -1,15 +1,14 @@
 
 import FeedRow from '../components/FeedRow';
-import { useBook } from '../hooks/apiHooks';
+import { useBook } from '../hooks/graphQLHooks';
 
 const Home = () => {
 
- const mediaArray = useBook();
-console.log(mediaArray);
+ const {mediaArray} = useBook();
 
   return (
     <>
-      <h2>Activity</h2>
+      <h2 className="text-3xl">Activity</h2>
       <div className="activity">
         {mediaArray.map((item) => (
           <FeedRow key={item.book_id} item={item} />

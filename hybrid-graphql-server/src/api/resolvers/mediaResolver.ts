@@ -14,28 +14,27 @@ import { bookRatings } from '../models/ratingModel';
 
 export default {
 Rating:{
-  book: async (parent: {book_id: string}) => {
-    return await bookRatings(Number(parent.book_id));
+  book: async (parent:{book_id: string}) => {
+    return await bookRatings(parent.book_id);
   },
 },
 Review:{
   book: async (parent: {book_id: string}) => {
-    return await bookReviews(Number(parent.book_id));
+    return await bookReviews(parent.book_id);
   },
 },
 
   Query: {
     mediaItems: async () => {
-      console.log('fetching media items')
       return await fetchAllMedia();
     },
     ownBookList: async (_parent: undefined, args: {user_id: string}) => {
-      const id = Number(args.user_id);
+      const id = args.user_id;
       return await ownBookList(id);
     },
 
-    mediaitem: async (_parent: undefined, args: {book_id: string}) => {
-      const id = Number(args.book_id);
+    mediaItem: async (_parent: undefined, args: {book_id: string}) => {
+      const id = args.book_id;
       return await fetchMediaById(id);
     },
   },
@@ -68,7 +67,7 @@ Review:{
       _parent: undefined,
       args: {input: Pick<MediaItem, 'title' | 'description'>; book_id: string},
     ) => {
-      return await putMedia(args.input, Number(args.book_id));
+      return await putMedia(args.input, args.book_id);
     },
 
     deleteMediaItem: async (
@@ -83,7 +82,7 @@ Review:{
       }
 
       return await deleteMedia(
-        Number(args.book_id),
+        args.book_id,
         context.user,
         context.user.token,
       );

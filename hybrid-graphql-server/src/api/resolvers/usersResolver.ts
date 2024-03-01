@@ -4,6 +4,7 @@ import {fetchData} from '../../lib/functions';
 import {MyContext, UserFromToken} from '../../local-types';
 import {GraphQLError} from 'graphql';
 import jwt from 'jsonwebtoken';
+import { token } from 'morgan';
 
 
 
@@ -33,7 +34,14 @@ export default {
       return user;
     },
   },
-
+  Like: {
+    user: async (parent: {user_id: string}) => {
+      const user = await fetchData<UserWithNoPassword>(
+        process.env.AUTH_SERVER + '/users/' + parent.user_id,
+      );
+      return user;
+    },
+  },
   Query: {
     users: async () => {
       const users = await fetchData<UserWithNoPassword[]>(
@@ -61,6 +69,21 @@ export default {
 
       return user;
     },
+    getUser: async (_parent: undefined, args: undefined, context: MyContext) => {
+        const options: RequestInit = {
+          headers: {
+            Authorization: `Bearer ${context.user?.token}`,
+          },
+        };
+
+        const user = await fetchData<UserWithNoPassword>(
+          process.env.AUTH_SERVER + '/users/token',
+          options,
+        );
+        console.log('user', user)
+        return user;
+      },
+
     checkEmail: async (_parent: undefined, args: {email: string}) => {
       const options = {
         method: 'GET',
@@ -81,6 +104,7 @@ export default {
           extensions: {code: 'NOT_AUTHORIZED'},
         });
       }
+
       const options = {
         method: 'GET',
         headers: {
@@ -88,14 +112,10 @@ export default {
         },
       };
       const user = await fetchData<UserResponse>(
-        process.env.AUTH_SERVER + '/auth/checkToken',
+        process.env.AUTH_SERVER +  '/users/token',
         options,
       );
-      if (user.message === 'Token is valid') {
-        throw new GraphQLError('Token is valid', {
-          extensions: {code: 'NOT_AUTHORIZED'},
-        });
-      }
+
       return user.user;
     },
   },

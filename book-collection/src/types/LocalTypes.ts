@@ -1,5 +1,6 @@
 import { User, UserWithNoPassword } from '@sharedTypes/DBTypes';
 export type Credentials = Pick<User, 'username' | 'password'>;
+export type RegCredentials = Pick<User, 'username' | 'password' | 'email'>;
 
 
 export type AuthContextType = {
@@ -9,9 +10,8 @@ export type AuthContextType = {
   handleAutoLogin: () => void;
 };
 
-export type GraphQLResponse<T> = {
+type GraphQLResponse<T> = {
   data: T;
   errors?: { message: string }[];
 };
-
-
+export type { GraphQLResponse };

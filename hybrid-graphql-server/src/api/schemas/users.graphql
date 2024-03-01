@@ -9,6 +9,7 @@ type User {
 type Query {
   users: [User!]!
   user(user_id: ID!): User!
+  getUser: User
   checkUsername(username: String!): AvailabeResponse!
   checkEmail(email: String!): AvailabeResponse!
   checkToken: User
@@ -21,7 +22,7 @@ input InputUser {
 }
 
 type Mutation {
-  createUser(input: InputUser!): User!
+  createUser(input: InputUser): User!
   login(username: String!, password: String!): LoginResponse
   updateUser(input: InputUser!, user_id: ID!): User!
   deleteUser: Message!

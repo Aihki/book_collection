@@ -9,6 +9,6 @@ type LoginResponse {
 }
 
 type AvailabeResponse {
-  message: String!
-  available: Boolean!
+  message: String
+  available: Boolean
 }

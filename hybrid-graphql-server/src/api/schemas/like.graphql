@@ -1,0 +1,18 @@
+type Like {
+  like_id: ID!
+  book: MediaItem!
+  user: User!
+  created_at: String!
+}
+
+type Query {
+  likes: [Like]
+  likesByBookID(book_id: ID!): [Like]
+  likesByUserID(user_id: ID!): [Like]
+  myLikes: [Like]
+}
+
+type Mutation {
+  createLike(book_id: ID!): Message
+  deleteLike(like_id: ID!): Message
+}

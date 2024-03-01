@@ -3,7 +3,7 @@ import {Rating, UserLevel} from '@sharedTypes/DBTypes';
 import promisePool from '../../lib/db';
 import {MessageResponse} from '@sharedTypes/MessageTypes';
 
-const bookRatings = async (book_id: number): Promise<Rating[] | null> => {
+const bookRatings = async (book_id: string): Promise<Rating[] | null> => {
   try {
     const [results] = await promisePool.execute<RowDataPacket[] & Rating[]>(
       `
@@ -24,13 +24,13 @@ const bookRatings = async (book_id: number): Promise<Rating[] | null> => {
 
 
 const postRating = async (
-  book_id: number,
-  user_id: number,
+  book_id: string,
+  user_id: string,
   rating: number,
   level_name: UserLevel['level_name'],
 ): Promise<MessageResponse | null> => {
   try {
-    // Tarkista, onko samalla book_id:llä ja user_id:llä jo arvostelua
+
     const [existingResults] = await promisePool.execute<
       RowDataPacket[] & Rating[]
     >(
@@ -57,7 +57,7 @@ const postRating = async (
 
     return {message:'Review added'};
   } catch (e) {
-    console.error('addReviewById error', (e as Error).message);
+    console.error('addRatingById error', (e as Error).message);
     throw new Error((e as Error).message);
   }
 };

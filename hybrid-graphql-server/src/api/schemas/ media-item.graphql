@@ -12,18 +12,20 @@ type MediaItem {
   title: String!
   description: String!
   created_at: String!
-  status_name: String!
+  likes: [Like]
   series_name: String
-  reviews: [Review]
-  ratings: [Rating]
+  review: Review
+  rating: Rating
+  likes_count: Int!
+  status: Status
 }
 
 
 type Query {
   mediaItems: [MediaItem]
-  mediaitem(book_id: ID!): MediaItem
+  mediaItem(book_id: ID!): MediaItem
   mediaItemsByTag(tag: String!): [MediaItem]
-  ownBookList(user_id: ID!): [MediaItem!]!
+  ownBookList(user_id: ID!): [MediaItem]
 }
 input MediaItemInput {
   user_id: ID!
@@ -34,7 +36,6 @@ input MediaItemInput {
   description: String!
   book_genre: String!
   series_name: String
-  status_name: String
 }
 
 input MediaItemUpdateInput {

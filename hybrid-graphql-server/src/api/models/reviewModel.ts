@@ -4,7 +4,7 @@ import promisePool from '../../lib/db';
 import {fetchData} from '../../lib/functions';
 import {MessageResponse} from '@sharedTypes/MessageTypes';
 
-const bookReviews = async (book_id: number): Promise<Review[] | null> => {
+const bookReviews = async (book_id: string): Promise<Review[] | null> => {
   try {
     const [results] = await promisePool.execute<RowDataPacket[] & Review[]>(
       `
@@ -25,8 +25,8 @@ const bookReviews = async (book_id: number): Promise<Review[] | null> => {
 
 
 const postReview = async (
-  book_id: number,
-  user_id: number,
+  book_id: string,
+  user_id: string,
   review_text: string,
   level_name: UserLevel['level_name'],
 ): Promise<MessageResponse | null> => {
@@ -45,6 +45,7 @@ const postReview = async (
       return null;
     }
     // Lisää uusi arvostelu tietokantaan
+    console.log('postReview', book_id, user_id, review_text);
     const [results] = await promisePool.execute<ResultSetHeader>(
       `
       INSERT INTO Reviews (book_id, user_id, review_text)

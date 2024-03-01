@@ -6,11 +6,12 @@ type Rating {
   created_at: String!
 }
 
+
 type Query {
-  ratings(book_id: ID!): [Rating]!
+  rating(book_id: ID!): [Rating!]!
 }
 
 type Mutation {
-  addRating(book_id: ID!, rating: Int!):Message
+  addRating(book_id: ID!, rating_value: Int!):Message
 }
 

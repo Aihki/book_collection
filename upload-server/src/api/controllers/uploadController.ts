@@ -18,8 +18,8 @@ const uploadFile = async (
     }
 
     const fileInfo: FileInfo = {
-      filename: req.file.filename, // filename is used as random string because multer creates a random string for filename
-      user_id: res.locals.user.user_id, // user_id is used to verify if user is owner of file
+      filename: req.file.filename,
+      user_id: res.locals.user.user_id,
     };
 
     // use fileinfo to create jwt token to be used as filename to store the owner of the file
@@ -42,6 +42,7 @@ const uploadFile = async (
       message: 'file uploaded',
       data: {
         filename,
+        user_id: res.locals.user.user_id,
         media_type: req.file.mimetype,
         filesize: req.file.size,
       },
