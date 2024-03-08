@@ -52,7 +52,7 @@ const app = express();
     await server.start();
 
     app.use(
-      '/media-api',
+      '/graphql',
       cors(),
       express.json(),
       expressMiddleware(server, {
