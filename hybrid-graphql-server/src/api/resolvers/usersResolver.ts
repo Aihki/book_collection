@@ -17,23 +17,7 @@ export default {
       );
       return user;
     },
-  },
-  Rating: {
-    user: async (parent: {user_id: string}) => {
-      const user = await fetchData<UserWithNoPassword>(
-        process.env.AUTH_SERVER + '/users/' + parent.user_id,
-      );
-      return user;
-    },
-  },
-  Review: {
-    user: async (parent: {user_id: string}) => {
-      const user = await fetchData<UserWithNoPassword>(
-        process.env.AUTH_SERVER + '/users/' + parent.user_id,
-      );
-      return user;
-    },
-  },
+
   Like: {
     user: async (parent: {user_id: string}) => {
       const user = await fetchData<UserWithNoPassword>(
