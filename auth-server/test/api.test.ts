@@ -48,7 +48,7 @@ describe('GET /api/v1', () => {
 
   // test that you get a single user
   it('should return a single user', async () => {
-    await getSingleUser(app, userpath, user.user_id);
+    await getSingleUser(app, userpath, Number(user.user_id));
   });
 
   // test login
@@ -76,6 +76,6 @@ describe('GET /api/v1', () => {
 
   // test that the user is deleted
   it('should not find the user', async () => {
-    await getSingleUserError(app, userpath, user.user_id);
+    await getSingleUserError(app, userpath, Number(user.user_id));
   });
 });
