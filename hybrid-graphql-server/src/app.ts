@@ -43,7 +43,7 @@ const app = express();
       schema,
       plugins: [
         createApollo4QueryValidationPlugin({schema}),
-        process.env.NODE_ENV === 'development'
+        process.env.NODE_ENV === 'production'
           ? ApolloServerPluginLandingPageProductionDefault()
           : ApolloServerPluginLandingPageLocalDefault(),
       ],
