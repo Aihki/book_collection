@@ -188,7 +188,7 @@ const getBookById = async (book_id: string) => {
 };
 
 const useUser = () => {
-  const [userArray, setUserArray] = useState<UserWithNoPassword[]>([]);
+
 
   const getUserByToken = async (token: string) => {
     const query = `
@@ -267,7 +267,7 @@ const getEmailAvailable = async (email: string) => {
 
   return emailCheckResult.data.checkEmail;
 }
-  return {userArray, getUserByToken, postUser, getUsernameAvailable, getEmailAvailable};
+  return {getUserByToken, postUser, getUsernameAvailable, getEmailAvailable};
 };
 
 const useAuthentication = () => {
