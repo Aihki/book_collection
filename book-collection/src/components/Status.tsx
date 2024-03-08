@@ -5,7 +5,7 @@ import { useStatusChangeStore, useStatusStore } from "../store";
 import { useUserContext } from "../hooks/contexHooks";
 
 
-const Status = ({item}: {item: MediaItemWithOwner}) => {
+const Status = ({book}: {book: MediaItemWithOwner}) => {
  const {status, setStatus} = useStatusStore();
  const {allStatuses, setAllStatuses} = useStatusChangeStore();
  const {user} = useUserContext();
@@ -29,7 +29,7 @@ const Status = ({item}: {item: MediaItemWithOwner}) => {
 
   const getStatus = async () => {
     try {
-      const status = await getBookStatus(item.book_id);
+      const status = await getBookStatus(book.book_id);
       console.log('status',status)
       setStatus(status);
     } catch (error) {
@@ -45,7 +45,7 @@ const Status = ({item}: {item: MediaItemWithOwner}) => {
   }
     try {
       console.log('status_id',status_id)
-      const newStatus = await changeStatus(item.book_id, status_id, token);
+      const newStatus = await changeStatus(book.book_id, status_id, token);
       console.log('newStatus',newStatus)
       getStatus();
     } catch (error) {
@@ -61,26 +61,30 @@ useEffect(() => {
 
 return (
   <>
-  <button className="flex items-center" onClick={() => setIsOpen(!isOpen)}>{status}
-  {!isOpen ? '▼' : '▲'}
-  </button>
-  {isOpen && allStatuses.map((status) => (
-    <div key={status.status_id}>
-      <div onClick={() => {
-        doStatusChange(status.status_id);
-        setIsOpen(false);
-      }}>
-        <div className="rounded-md border border-slate-200 bg-slate-800 p-3 text-slate-100 text-center cursor-pointer w-36 h-12">
-          <span className="ml-2">{status.status_name}</span>
+  {user?.user_id === book.owner.user_id ? (
+    <>
+      <button className="flex items-center" onClick={() => setIsOpen(!isOpen)}>{status}
+      {!isOpen ? '▼' : '▲'}
+      </button>
+      {isOpen && allStatuses.map((status) => (
+        <div key={status.status_id}>
+          <div onClick={() => {
+            doStatusChange(status.status_id);
+            setIsOpen(false);
+          }}>
+            <div className="rounded-md border border-slate-200 cursor-pointer w-36 h-7">
+              <span className="ml-2">{status.status_name}</span>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  ))}
-</>
+      ))}
+    </>
+  ) : (
+    <span className="ml-2">{status}</span>
+  )}
+  </>
 );
-};
+}
 
 export default Status;
-
-
 

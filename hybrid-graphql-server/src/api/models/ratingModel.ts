@@ -27,7 +27,6 @@ const postRating = async (
   book_id: string,
   user_id: string,
   rating: number,
-  level_name: UserLevel['level_name'],
 ): Promise<MessageResponse | null> => {
   try {
 

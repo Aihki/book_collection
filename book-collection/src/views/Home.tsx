@@ -8,10 +8,10 @@ const Home = () => {
 
   return (
     <>
-      <h2 className="text-3xl">Activity</h2>
+      <h2 className="text-3xl flex items-center justify-center p-3">Activity Feed</h2>
       <div className="activity">
-        {mediaArray.map((item) => (
-          <FeedRow key={item.book_id} item={item} />
+        {mediaArray.map((book) => (
+          <FeedRow key={book.book_id} book={book} />
         ))}
       </div>
     </>

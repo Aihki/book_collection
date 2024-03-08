@@ -31,18 +31,18 @@ const likeReducer = (state: LikeState, action: LikeAction): LikeState => {
   return state;
 };
 
-const Likes = ({item}: {item: MediaItemWithOwner}) => {
+const Likes = ({book}: {book: MediaItemWithOwner}) => {
   const [likeState, likeDispatch] = useReducer(likeReducer, likeInitialState);
   const {getUserLike, getCountByMediaId, postLike, deleteLike} = useLike();
 
   // get user like
   const getLikes = async () => {
     const token = localStorage.getItem('token');
-    if (!item || !token) {
+    if (!book || !token) {
       return;
     }
     try {
-      const response = await getUserLike(item.book_id, token);
+      const response = await getUserLike(book.book_id, token);
       const userLike: Like | null = response.length > 0
       ? { ...response[0], book_id: '', created_at: new Date() }
       : null;
@@ -56,7 +56,7 @@ const Likes = ({item}: {item: MediaItemWithOwner}) => {
 
   const getLikeCount = async () => {
     try {
-      const countResponse = await getCountByMediaId(item.book_id);
+      const countResponse = await getCountByMediaId(book.book_id);
       likeDispatch({type: 'setLikeCount', count: countResponse.count});
     } catch (e) {
       likeDispatch({type: 'setLikeCount', count: 0});
@@ -67,12 +67,12 @@ const Likes = ({item}: {item: MediaItemWithOwner}) => {
   useEffect(() => {
     getLikes();
     getLikeCount();
-  }, [item]);
+  }, [book]);
 
   const handleLike = async () => {
     try {
       const token = localStorage.getItem('token');
-      if (!item || !token) {
+      if (!book || !token) {
         return;
       }
       if (likeState.userLike) {
@@ -80,7 +80,7 @@ const Likes = ({item}: {item: MediaItemWithOwner}) => {
         likeDispatch({type: 'setLikeCount', count: likeState.count - 1});
         likeDispatch({type: 'like', like: null});
       } else {
-        await postLike(item.book_id, token);
+        await postLike(book.book_id, token);
         getLikes();
         getLikeCount();
       }

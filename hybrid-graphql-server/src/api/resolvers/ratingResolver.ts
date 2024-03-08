@@ -30,7 +30,6 @@ export default {
         args.book_id,
         user_id,
         args.rating_value,
-        context.user.level_name,
       );
 
     },

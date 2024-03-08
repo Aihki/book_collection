@@ -10,7 +10,6 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
   const [emailAvailable, setEmailAvaileble] = useState<boolean | undefined>(true);
 
 
-
   const initValues = {
     username: '',
     password: '',
@@ -55,7 +54,7 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
       <form onSubmit={handleSubmit} className='flex flex-col text-center'>
         <div className="flex w-4/5">
           <label className="w-1/3 p-6 text-end" htmlFor="username">Username</label>
-          <input className="m-3 w-2/3 rounded-md border-slate-500 p3 text-slate-950"
+          <input className="m-3 w-3/5 rounded-md border-slate-500 p3 text-slate-950"
             name="username"
             type="text"
             id="username"
@@ -69,7 +68,7 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
         </div>)}
         <div className="flex w-4/5">
           <label className="w-1/3 p-6 text-end" htmlFor="password">Password</label>
-          <input className="m-3 w-2/3 rounded-md border-slate-500 p3 text-slate-950"
+          <input className="m-3 w-3/5 rounded-md border-slate-500 p3 text-slate-950"
             name="password"
             type="password"
             id="password"
@@ -79,7 +78,7 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
         </div>
         <div className="flex w-4/5">
           <label className="w-1/3 p-6 text-end" htmlFor="email">Email</label>
-          <input className="m-3 w-2/3 rounded-md border-slate-500 p3 text-slate-950"
+          <input className="m-3 w-3/5 rounded-md border-slate-500 p3 text-slate-950"
             name="email"
             type="email"
             id="email"
@@ -91,9 +90,9 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
         {!emailAvailable && (<div className='flex w-4/5 justify-end pr-4'>
           <p className='text-red-500'>email not available</p>
         </div>)}
-        <div className="flex w-4/5 justify-end">
-        <button  className="m-3 w-1/3 rounded-md bg-slate-750 p3" type="submit" >Register</button>
-        </div>
+        <div className="flex items-center justify-center">
+  <button className="m-5 w-1/5 h-12 rounded-md bg-slate-750 p3 border border-white" type="submit">Register</button>
+</div>
       </form>
     </>
   );

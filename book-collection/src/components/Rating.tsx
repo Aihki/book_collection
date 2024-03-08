@@ -11,7 +11,7 @@ const Star = ({ filled, onClick }: { filled: boolean, onClick: () => void }) => 
   <span onClick={onClick}>{filled ? '⭐' : '☆'}</span>
 );
 
-const Rating = ({item}: {item: MediaItemWithOwner})  => {
+const Rating = ({book}: {book: MediaItemWithOwner})  => {
   const {user} = useUserContext();
   const {rating, setRating} = useRatingStore();
   const {postRating, getRatingByBookId} = useRating();
@@ -23,7 +23,7 @@ const Rating = ({item}: {item: MediaItemWithOwner})  => {
       return;
     }
     try {
-      await postRating(rating, item.book_id, token);
+      await postRating(rating, book.book_id, token);
       await getRating();
     } catch (error) {
       console.error('postRating failed', error);
@@ -32,7 +32,7 @@ const Rating = ({item}: {item: MediaItemWithOwner})  => {
 
   const getRating = async () => {
     try {
-      const rating = await getRatingByBookId(item.book_id);
+      const rating = await getRatingByBookId(book.book_id);
       setRating(rating);
     } catch (error) {
       setRating([]);
@@ -46,12 +46,17 @@ const Rating = ({item}: {item: MediaItemWithOwner})  => {
 
   return (
         <>
-        <div>
+        <div className="flex">
           {[1, 2, 3, 4, 5].map(value => (
             <Star
               key={value}
               filled={rating && rating.length > 0 && value <= (rating[0]?.rating_value ?? 0)}
-              onClick={() => doRating(value)}
+              onClick={() => {
+                if (user?.user_id === book.owner.user_id) {
+                  doRating(value);
+              }
+              }
+            }
             />
           ))}
         </div>

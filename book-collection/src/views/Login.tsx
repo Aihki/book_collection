@@ -15,9 +15,11 @@ const Login = () => {
     ) : (
       <RegisterForm handletoggle={handleToggle} />
     )}
-    <button onClick={handleToggle}>
-  {!toggleReg ? 'No account yet? Register here!' : 'Back to login'}
-</button>
+  <div className="flex items-center justify-center">
+  <button className="text-center text-blue-400 underline hover:text-blue-600" onClick={handleToggle}>
+    {!toggleReg ? 'No account yet? Register here!' : 'Back to login'}
+  </button>
+</div>
     </>
   );
 

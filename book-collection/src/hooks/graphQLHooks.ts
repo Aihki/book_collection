@@ -36,6 +36,7 @@ const ownBookList = async (user_id: string) => {
         created_at
       }
       filename
+      thumbnail
       book_genre
       filesize
       media_type
@@ -105,6 +106,7 @@ const getBookById = async (book_id: string) => {
           title
           owner {
             username
+            user_id
           }
           rating {
             rating_value

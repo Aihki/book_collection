@@ -7,7 +7,7 @@ import { useUserContext } from '../hooks/contexHooks';
 
 
 
-const Review = ({item}: {item: MediaItemWithOwner}) => {
+const Review = ({book}: {book: MediaItemWithOwner}) => {
   const {review, setReview} = useReviewtStore();
   const {user} = useUserContext();
   const formRef = useRef<HTMLFormElement>(null);
@@ -21,7 +21,7 @@ const Review = ({item}: {item: MediaItemWithOwner}) => {
       return;
     }
     try {
-      await postReview(inputs.review_text,item.book_id, token);
+      await postReview(inputs.review_text,book.book_id, token);
       console.log('postReview')
       await getReview();
       if (formRef.current) {
@@ -39,14 +39,14 @@ const Review = ({item}: {item: MediaItemWithOwner}) => {
 
   const getReview = async () => {
     try {
-      const review = await getReviewByBookId(item.book_id);
+      const review = await getReviewByBookId(book.book_id);
       setReview(review);
-      console.log('review',review)
     } catch (error) {
       console.error('getReview  failed', error);
       setReview([]);
     }
   };
+
 
   useEffect(() => {
     getReview();
@@ -54,7 +54,7 @@ const Review = ({item}: {item: MediaItemWithOwner}) => {
 
   return (
     <>
-{user && (
+{user?.user_id === book.owner.user_id && review.length === 0 && (
         <>
           <h3 className="text-xl">Add Review</h3>
           <form onSubmit={handleSubmit} ref={formRef}>
@@ -85,22 +85,18 @@ const Review = ({item}: {item: MediaItemWithOwner}) => {
 {review.length > 0 && (
   <>
     <h3 className="text-xl text-center">Review</h3>
-    <ul>
-      {review.map((rew) => (
-        <li key={rew.review_id}>
-          <div className="rounded-md border border-slate-200 bg-slate-800 p-3 text-slate-100 text-center">
-            <span className="font-bold text-slate-200">
-              On{' '}
-              {new Date(rew.created_at!).toLocaleDateString('fi-FI')}{' '}
-            </span>
-            <span className="font-bold text-slate-200">
-              {rew.username} wrote:
-            </span>
-            <span className="ml-2">{rew.review_text}</span>
-          </div>
-        </li>
-      ))}
-    </ul>
+    {review.length > 0 && (
+<div className="rounded-md border border-slate-200 bg-slate-800 p-3 text-slate-100 text-center overflow-auto break-words">
+  <span className="font-bold text-slate-200">
+    On{' '}
+    {new Date(review[0].created_at!).toLocaleDateString('fi-FI')}{' '}
+  </span>
+  <span className="font-bold text-slate-200">
+    {review[0].username} wrote:
+  </span>
+  <span className="ml-2">{review[0].review_text}</span>
+</div>
+)}
   </>
 )}
 

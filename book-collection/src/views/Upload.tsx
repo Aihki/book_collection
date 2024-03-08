@@ -46,85 +46,68 @@ const Upload = () => {
 
   return (
     <>
-      <h3 className="text-3xl">Upload</h3>
-      <form onSubmit={handleSubmit} >
-        <div className="flex w-4/5">
-          <label className="w-1/3 p-6 text-end" htmlFor="title">
-            Title
-          </label>
-          <input  className="m-3 w-2/3 rounded-md border-slate-500 p3 text-slate-950"
-            name="title"
-            type="text"
-            id="title"
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="flex w-4/5">
-          <label className="w-1/3 p-6 text-end" htmlFor="genre">
-            Genre
-          </label>
-          <input className="m-3 w-2/3 rounded-md border-slate-500 p3 text-slate-950"
-            name="genre"
-            type="text"
-            id="genre"
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="flex w-4/5">
-          <label className="w-1/3 p-6 text-end" htmlFor="series">
-            Series
-          </label>
-          <input className="m-3 w-2/3 rounded-md border-slate-500 p3 text-slate-950"
-            name="series"
-            type="text"
-            id="series"
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="flex w-4/5">
-          <label className="w-1/3 p-6 text-end" htmlFor="description">
-            Description
-          </label>
-          <textarea className="m-3 w-2/3 rounded-md border-slate-500 p3 text-slate-950"
-            name="description"
-            rows={5}
-            id="description"
-            onChange={handleInputChange}
-          ></textarea>
-        </div>
-        <div className="flex w-2/5">
-          <label className="w-1/3 p-6 text-end" htmlFor="file">
-            File
-          </label>
-          <input className="m-3 w-2/3 rounded-md border-slate-500 p3 text-slate-950"
-            name="file"
-            type="file"
-            id="file"
-            accept="image/*, video/*"
-            onChange={handleFileChange}
-          />
-        </div>
-        <div className="flex w-4/5 justify-end">
-        <img
-          src={
-            file
-              ? URL.createObjectURL(file)
-              : 'https://via.placeholder.com/200?text=Choose+image'
-          }
-          alt="preview"
-          className="w-2/3 p-6 h-15"
-        />
-        </div>
-        <div  className="flex w-4/5 justify-end">
-        <button className="m-3 w-1/3 rounded-md bg-slate-750 p3"
-          type="submit"
-          disabled={file && inputs.title.length > 3 ? false : true}
-        >
-          Upload
-        </button>
-        </div>
-      </form>
-
+      <h3 className="text-3xl flex items-center justify-center p-3">Upload</h3>
+      <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
+        <div className="flex flex-col w-2/5 space-y-2 sm:w-4/5">
+    <label htmlFor="title">Title</label>
+    <input
+      className="rounded-md border-slate-500 p-3 text-slate-950"
+      name="title"
+      type="text"
+      id="title"
+      onChange={handleInputChange}
+    />
+    <label htmlFor="genre">Genre</label>
+    <input
+      className="rounded-md border-slate-500 p-3 text-slate-950"
+      name="genre"
+      type="text"
+      id="genre"
+      onChange={handleInputChange}
+    />
+    <label htmlFor="series">Series</label>
+    <input
+      className="rounded-md border-slate-500 p-3 text-slate-950"
+      name="series"
+      type="text"
+      id="series"
+      onChange={handleInputChange}
+    />
+    <label htmlFor="description">Description</label>
+    <textarea
+      className="rounded-md border-slate-500 p-3 text-slate-950"
+      name="description"
+      rows={5}
+      id="description"
+      onChange={handleInputChange}
+    ></textarea>
+    <label htmlFor="file">File</label>
+    <input
+      className="rounded-md border-slate-500 p-3 text-slate-950"
+      name="file"
+      type="file"
+      id="file"
+      accept="image/*, video/*"
+      onChange={handleFileChange}
+    />
+  </div>
+  <img
+    src={
+      file
+        ? URL.createObjectURL(file)
+        : 'https://via.placeholder.com/200?text=Choose+image'
+    }
+    alt="preview"
+    className="h-auto w-72 object-cover rounded"
+  />
+<button
+  className="w-1/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-sm shadow-lg"
+  type="submit"
+  disabled={file && inputs.title.length > 3 ? false : true}
+>
+  Upload
+</button>
+</form>
     </>
   );
 };
