@@ -43,7 +43,7 @@ const app = express();
       schema,
       plugins: [
         createApollo4QueryValidationPlugin({schema}),
-        process.env.NODE_ENV === 'production'
+        process.env.NODE_ENV === 'development'
           ? ApolloServerPluginLandingPageProductionDefault()
           : ApolloServerPluginLandingPageLocalDefault(),
       ],
@@ -52,7 +52,7 @@ const app = express();
     await server.start();
 
     app.use(
-      '/media-api',
+      '/graphql',
       cors(),
       express.json(),
       expressMiddleware(server, {
