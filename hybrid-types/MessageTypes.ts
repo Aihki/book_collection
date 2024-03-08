@@ -1,4 +1,4 @@
-import { MediaItem, Status, UserWithNoPassword } from "./DBTypes";
+import { MediaItem, BookStatus, UserWithNoPassword } from "./DBTypes";
 
 type MessageResponse = {
   message: string;
@@ -13,7 +13,7 @@ type MediaResponse = MessageResponse & {
 };
 
 type StatusResponse = MessageResponse & {
-  status: Status | Status[];
+  status: BookStatus | BookStatus[];
 };
 
 // for auth server
@@ -31,12 +31,17 @@ type UserDeleteResponse = MessageResponse & {
   user: { user_id: number };
 };
 
+type AvailableResponse = Partial<MessageResponse> & {
+  available?: boolean;
+};
+
 // for upload server
 type UploadResponse = MessageResponse & {
   data: {
     filename: string;
     media_type: string;
     filesize: number;
+    user_id: string;
   };
 };
 
@@ -49,4 +54,5 @@ export type {
   UserResponse,
   UserDeleteResponse,
   StatusResponse,
+  AvailableResponse,
 };

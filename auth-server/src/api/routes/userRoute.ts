@@ -84,7 +84,7 @@ router.post(
   body('username').notEmpty().isString().escape().trim().isLength({min: 3}),
   body('password').notEmpty().isString().escape().trim().isLength({min: 5}),
   body('email').isEmail(),
-  userPost
+  userPost,
 );
 
 /**
@@ -134,7 +134,7 @@ router.put(
   body('username').optional().isString().escape().trim().isLength({min: 3}),
   body('password').optional().isString().escape().trim().isLength({min: 5}),
   body('email').optional().isEmail(),
-  userPut
+  userPut,
 );
 
 /**
@@ -267,7 +267,7 @@ router
     body('username').optional().isString().escape().trim().isLength({min: 3}),
     body('password').optional().isString().escape().trim().isLength({min: 5}),
     body('email').optional().isEmail(),
-    userPutAsAdmin
+    userPutAsAdmin,
   );
 
 /**
@@ -297,7 +297,7 @@ router
   .delete(authenticate, param('id').isNumeric(), userDeleteAsAdmin);
 
 /**
- * @api {get} /users/email Check Email
+ * @api {get} /users/:email Check Email
  * @apiName CheckEmail
  * @apiGroup User
  * @apiPermission admin
@@ -323,7 +323,7 @@ router
 router.get('/email/:email', param('email').isEmail(), checkEmailExists);
 
 /**
- * @api {get} /users/username Check Username
+ * @api {get} /users/:username Check Username
  * @apiName CheckUsername
  * @apiGroup User
  * @apiPermission admin
@@ -349,7 +349,7 @@ router.get('/email/:email', param('email').isEmail(), checkEmailExists);
 router.get(
   '/username/:username',
   param('username').isString().escape(),
-  checkUsernameExists
+  checkUsernameExists,
 );
 
 export default router;

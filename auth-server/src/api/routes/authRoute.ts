@@ -13,8 +13,8 @@ import {body} from 'express-validator';
  *
  * @apiParamExample {json} Request-Example:
  *     {
- *       "username": "testi",
- *       "password": "12345"
+ *       "username": "test_user",
+ *       "password": "123456"
  *     }
  *
  * @apiSuccess {String} message Success message.
@@ -44,7 +44,7 @@ router.post(
   '/login',
   body('username').isString().notEmpty(),
   body('password').isString().notEmpty(),
-  login
+  login,
 );
 
 export default router;

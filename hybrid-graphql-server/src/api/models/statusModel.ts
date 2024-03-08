@@ -1,13 +1,14 @@
 import {ResultSetHeader, RowDataPacket} from 'mysql2';
-import {Status, statusResult} from '@sharedTypes/DBTypes';
+import {BookStatus, statusResult} from '@sharedTypes/DBTypes';
 import promisePool from '../../lib/db';
 import {fetchData} from '../../lib/functions';
 import {StatusResponse} from '@sharedTypes/MessageTypes';
-import {fetchMediaAndStatusById} from './mediaModel';
+import { fetchBooksStatus } from './mediaModel';
 
-const allStatuses = async (): Promise<Status[] | null> => {
+
+const allStatuses = async (): Promise<BookStatus[] | null> => {
   try {
-    const [rows] = await promisePool.execute<RowDataPacket[] & Status[]>(
+    const [rows] = await promisePool.execute<RowDataPacket[] & BookStatus[]>(
       `SELECT * FROM Status;`,
     );
     if (rows.length === 0) {
@@ -22,7 +23,7 @@ const allStatuses = async (): Promise<Status[] | null> => {
 
 const putStatus = async (
   status: Pick<statusResult, 'status_id'>,
-  id: number,
+  id: string,
 ): Promise<StatusResponse | null> => {
   try {
     const rows = promisePool.format(
@@ -34,7 +35,7 @@ const putStatus = async (
       return null;
     }
 
-    const statusItem = await fetchMediaAndStatusById(id);
+    const statusItem = await fetchBooksStatus(id);
     if (statusItem === null) {
       return null;
     }

@@ -1,10 +1,10 @@
 type UserLevel = {
-  level_id: number;
+  level_id: string;
   level_name: "Admin" | "User" | "Guest";
 };
 
 type User = {
-  user_id: number;
+  user_id: string;
   username: string;
   password: string;
   email: string;
@@ -13,72 +13,83 @@ type User = {
 };
 
 type MediaItem = {
-  book_id: number;
-  user_id: number;
+  book_id: string;
+  user_id: string;
   filename: string;
   book_genre: string;
-  thumbnail: string;
+  series_name: string;
+  thumbnail: string;  
   filesize: number;
   media_type: string;
   title: string;
   description: string | null;
   created_at: Date | string;
-  app_id: string;
 };
 
 type Comment = {
-  comment_id: number;
-  book_id: number;
-  user_id: number;
+  comment_id: string;
+  book_id: string;
+  user_id: string;
   comment_text: string;
   created_at: Date;
 };
 
 type Like = {
-  like_id: number;
-  book_id: number;
-  user_id: number;
+  like_id: string;
+  book_id: string;
+  user_id: string;
   created_at: Date;
 };
 
 type Rating = {
-  rating_id: number;
-  book_id: number;
-  user_id: number;
+  rating_id: string;
+  book_id: string;
+  user_id: string;
   rating_value: number;
   created_at: Date;
 };
 
 type Review = {
-  review_id: number;
-  book_id: number;
-  user_id: number;
+  review_id: string;
+  book_id: string;
+  user_id: string;
   review_text: string;
-  created_at: Date | string;
+  created_at: Date;
 };
 
 type Tag = {
-  tag_id: number;
+  tag_id: string;
   tag_name: string;
 };
 
 type MediaItemTag = {
-  book_id: number;
-  tag_id: number;
+  book_id: string;
+  tag_id: string;
 };
 
-type Status = {
-  status_id: number;
-  status_name: "Want to Read" | "Reading" | "Read" | "Dropped" | "Paused";
+type ReadingStatus = {
+  status_id: string;
+  status_name: string;
 };
+
 type BookStatus = {
-  book_id: number;
-  status_id: number;
-  user_id: number;
+  book_id: string;
+  status_id: string;
+  user_id: string;
 };
+
+type StatusColors = {
+  [key in 'Reading' | 'Read' | 'Dropped' | 'Want to Read' | 'Paused']: string;
+};
+
+
+type BookGroup ={
+  [series: string]: MediaItemWithOwner[];
+}
+
 type reviewResult = Review & Rating;
-type bookList = MediaItem & Status;
-type statusResult = Status & BookStatus;
+type bookList = MediaItem & ReadingStatus;
+type statusResult = ReadingStatus & BookStatus;
 type TagResult = MediaItemTag & Tag;
 
 type UploadResult = {
@@ -110,12 +121,22 @@ type UserWithNoPassword = Omit<UserWithLevel, "password">;
 
 type TokenContent = Pick<User, "user_id"> & Pick<UserLevel, "level_name">;
 
-type MediaItemWithOwner = MediaItem & Pick<User, "username">;
+//type MediaItemWithOwner = MediaItem & Pick<User, "username">;
+
+type MediaItemWithOwner = MediaItem & {
+  owner: User;
+  likes?: Like[];
+  rating?: Rating;
+  review?: Review;
+  likes_count: number;
+  status: ReadingStatus;
+};
+
 
 // for upload server
 type FileInfo = {
   filename: string;
-  user_id: number;
+  user_id: string;
 };
 
 export type {
@@ -126,7 +147,7 @@ export type {
   Like,
   Rating,
   Tag,
-  Status,
+  ReadingStatus,
   MediaItemTag,
   TagResult,
   UploadResult,
@@ -141,4 +162,6 @@ export type {
   reviewResult,
   Review,
   BookStatus,
+  BookGroup,
+  StatusColors
 };

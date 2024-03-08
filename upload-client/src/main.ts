@@ -20,6 +20,9 @@ const descriptionInput = document.querySelector(
 const genreInput = document.querySelector(
   '#book_genre'
 ) as HTMLTextAreaElement | null;
+const seriesInput = document.querySelector(
+  '#series_name'
+) as HTMLTextAreaElement | null;
 const fileInput = document.querySelector('#file') as HTMLInputElement | null;
 
 // select profile elements from the DOM
@@ -104,6 +107,7 @@ const postFile = async (uploadResponse: UploadResponse) => {
       filesize: uploadResponse.data.filesize,
       media_type: uploadResponse.data.media_type,
       book_genre: genreInput && genreInput.value,
+      series_name: seriesInput && seriesInput.value,
     },
   };
   console.log('hello', variables);

@@ -1,4 +1,4 @@
-import {ResultSetHeader, RowDataPacket} from 'mysql2';
+/* import {ResultSetHeader, RowDataPacket} from 'mysql2';
 import {Rating, Review, reviewResult} from '@sharedTypes/DBTypes';
 import promisePool from '../../lib/db';
 import {fetchData} from '../../lib/functions';
@@ -6,7 +6,7 @@ import {MessageResponse} from '@sharedTypes/MessageTypes';
 
 //r = reviews
 //rt = ratings
-const bookReviews = async (id: number): Promise<reviewResult[] | null> => {
+const bookReviews = async (id: string): Promise<reviewResult[] | null> => {
   try {
     const [results] = await promisePool.execute<
       RowDataPacket[] & reviewResult[]
@@ -79,6 +79,7 @@ const postReview = async (
       review_text,
       created_at: new Date(),
     };
+    console.log('newReview', newReview)
 
     return newReview;
   } catch (e) {
@@ -88,3 +89,4 @@ const postReview = async (
 };
 
 export {bookReviews, postRating, postReview};
+ */

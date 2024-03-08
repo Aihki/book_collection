@@ -10,15 +10,15 @@ import {validationResult} from 'express-validator';
 const login = async (
   req: Request<{}, {}, {username: string; password: string}>,
   res: Response<LoginResponse>,
-  next: NextFunction
+  next: NextFunction,
 ) => {
+  console.log(req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const messages: string = errors
       .array()
-      .map((error) => `${error.msg}: ${error.param}`)
+      .map((error) => `${error.msg}: ${error.type === 'field' && error.path}`)
       .join(', ');
-    console.log('login validation', messages);
     next(new CustomError(messages, 400));
     return;
   }
@@ -54,6 +54,8 @@ const login = async (
       user_id: user.user_id,
       level_name: user.level_name,
     };
+
+    console.log('tokenContent', tokenContent);
 
     const token = jwt.sign(tokenContent, process.env.JWT_SECRET);
 

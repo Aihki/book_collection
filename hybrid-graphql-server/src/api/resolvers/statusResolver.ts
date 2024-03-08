@@ -2,8 +2,14 @@ import {BookStatus} from '@sharedTypes/DBTypes';
 import {allStatuses, putStatus} from '../models/statusModel';
 import {MyContext} from '../../local-types';
 import {GraphQLError} from 'graphql';
+import { fetchBooksStatus } from '../models/mediaModel';
 
 export default {
+  MediaItem: {
+    status: async (parent: {book_id: string}) => {
+      return await fetchBooksStatus(parent.book_id);
+  },
+  },
   Query: {
     status: async () => {
       return await allStatuses();
@@ -23,9 +29,9 @@ export default {
       }
       const userData = {
         ...args.input,
-        status_id: Number(args.input.status_id),
+        status_id: args.input.status_id,
       };
-      return await putStatus(userData, Number(args.book_id));
+      return await putStatus(userData, args.book_id);
     },
   },
 };

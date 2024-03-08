@@ -1,6 +1,9 @@
+
+
 type MediaItem {
   book_id: ID!
   user_id: ID!
+  owner: User!
   filename: String!
   book_genre: String!
   thumbnail: String!
@@ -9,29 +12,30 @@ type MediaItem {
   title: String!
   description: String!
   created_at: String!
-  tags: [Tag]
-  status_name: String
-  owner: User
+  likes: [Like]
+  series_name: String
+  review: Review
+  rating: Rating
+  likes_count: Int!
+  status: Status
 }
 
-type MediaResponse {
-  message: String!
-  media: MediaItem!
-}
 
 type Query {
   mediaItems: [MediaItem]
-  mediaitem(book_id: ID!): MediaItem
+  mediaItem(book_id: ID!): MediaItem
   mediaItemsByTag(tag: String!): [MediaItem]
   ownBookList(user_id: ID!): [MediaItem]
 }
 input MediaItemInput {
+  user_id: ID!
   filename: String!
   filesize: Int!
   media_type: String!
   title: String!
   description: String!
   book_genre: String!
+  series_name: String
 }
 
 input MediaItemUpdateInput {
@@ -39,14 +43,10 @@ input MediaItemUpdateInput {
   description: String!
 }
 
-input AddTagToMediaItemInput {
-  book_id: ID!
-  tag_name: String!
-}
+
 
 type Mutation {
   createMediaItem(input: MediaItemInput!): MediaItem
-  addTagToMediaItem(input: AddTagToMediaItemInput!): MediaItem
-  updateMediaItem(input: MediaItemUpdateInput!, book_id: ID!): MediaResponse
-  deleteMediaItem(book_id: ID!): MediaResponse
+  updateMediaItem(input: MediaItemInput!, book_id: ID): MediaItem
+  deleteMediaItem(book_id: ID!): Message
 }

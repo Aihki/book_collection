@@ -1,28 +1,23 @@
-import {Rating, Review} from '@sharedTypes/DBTypes';
-import {
-  bookRatings,
-  bookReviews,
-  postRating,
-  postReview,
-} from '../models/reviewModel';
+import {bookReviews, postReview} from '../models/reviewModel';
 import {MyContext} from '../../local-types';
 import {GraphQLError} from 'graphql';
 
 export default {
-  Query: {
-    reviews: async (_parent: undefined, arg: {book_id: string}) => {
-      const id = Number(arg.book_id);
-      return await bookReviews(id);
+  MediaItem: {
+    review: async (parent: {book_id: string}) => {
+      return await bookReviews(parent.book_id);
     },
-    ratings: async (_parent: undefined, arg: {book_id: string}) => {
-      const id = Number(arg.book_id);
-      return await bookRatings(id);
+  },
+  Query: {
+    review: async (_parent: undefined, arg: {book_id: string}) => {
+      const id = arg.book_id;
+      return await bookReviews(id);
     },
   },
   Mutation: {
-    createReview: async (
+    addReview: async (
       _parent: undefined,
-      args: {input: Omit<Review, 'review_id' | 'created_at' | 'user_id'>},
+      args: {book_id: string; review_text: string},
       context: MyContext,
     ) => {
       if (!context.user || !context.user.user_id) {
@@ -30,28 +25,13 @@ export default {
           extensions: {code: 'NOT_AUTHORIZED'},
         });
       }
-      const userData = {
-        ...args.input,
-        user_id: context.user.user_id,
-      };
-      console.log(userData);
-      return await postReview(userData);
-    },
-    createRating: async (
-      _parent: undefined,
-      args: {input: Omit<Rating, 'rating_id' | 'created_at' | 'user_id'>},
-      context: MyContext,
-    ) => {
-      if (!context.user || !context.user.user_id) {
-        throw new GraphQLError('Not authorized', {
-          extensions: {code: 'NOT_AUTHORIZED'},
-        });
-      }
-      const userData = {
-        ...args.input,
-        user_id: context.user.user_id,
-      };
-      return await postRating(userData);
+      const user_id = context.user.user_id;
+      return await postReview(
+        args.book_id,
+        user_id,
+        args.review_text,
+        context.user.level_name,
+      );
     },
   },
 };

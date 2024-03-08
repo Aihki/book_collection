@@ -1,13 +1,15 @@
 import mediaResolver from './mediaResolver';
 import reviewResolver from './reviewResolver';
-import tagResolver from './tagResolver';
-import statusResolver from './statusResolver';
 import usersResolver from './usersResolver';
+import ratingResolver from './ratingResolver';
+import likeResolver from './likeResolver';
+import statusResolver from './statusResolver';
 
 export default [
   mediaResolver,
-  tagResolver,
   reviewResolver,
-  statusResolver,
   usersResolver,
+  ratingResolver,
+  likeResolver,
+  statusResolver
 ];
