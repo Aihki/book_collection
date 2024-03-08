@@ -17,6 +17,7 @@ export default {
       );
       return user;
     },
+  },
 
   Like: {
     user: async (parent: {user_id: string}) => {
