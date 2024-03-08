@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Like, MediaItem, MediaItemWithOwner, Rating, ReadingStatus, Review, User, UserWithNoPassword } from "@sharedTypes/DBTypes";
+import { Like, MediaItem, MediaItemWithOwner, Rating, ReadingStatus, Review, User } from "@sharedTypes/DBTypes";
 import {
   AvailableResponse,
   LoginResponse,
