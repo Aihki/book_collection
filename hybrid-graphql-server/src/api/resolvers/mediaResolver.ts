@@ -9,20 +9,20 @@ import {
 } from '../models/mediaModel';
 import {MyContext} from '../../local-types';
 import {GraphQLError} from 'graphql';
-import { bookReviews } from '../models/reviewModel';
-import { bookRatings } from '../models/ratingModel';
+import {bookReviews} from '../models/reviewModel';
+import {bookRatings} from '../models/ratingModel';
 
 export default {
-// Rating:{
-//   book: async (parent:{book_id: string}) => {
-//     return await bookRatings(parent.book_id);
-//   },
-// },
-// Review:{
-//   book: async (parent: {book_id: string}) => {
-//     return await bookReviews(parent.book_id);
-//   },
-// },
+  Rating: {
+    book: async (parent: {book_id: string}) => {
+      return await bookRatings(parent.book_id);
+    },
+  },
+  Review: {
+    book: async (parent: {book_id: string}) => {
+      return await bookReviews(parent.book_id);
+    },
+  },
 
   Query: {
     mediaItems: async () => {
@@ -61,8 +61,6 @@ export default {
       return await postMedia(userdata);
     },
 
-
-
     updateMediaItem: async (
       _parent: undefined,
       args: {input: Pick<MediaItem, 'title' | 'description'>; book_id: string},
@@ -81,11 +79,7 @@ export default {
         });
       }
 
-      return await deleteMedia(
-        args.book_id,
-        context.user,
-        context.user.token,
-      );
+      return await deleteMedia(args.book_id, context.user, context.user.token);
     },
   },
 };
