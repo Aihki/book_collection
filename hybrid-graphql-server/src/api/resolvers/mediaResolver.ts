@@ -13,11 +13,11 @@ import { bookReviews } from '../models/reviewModel';
 import { bookRatings } from '../models/ratingModel';
 
 export default {
-Rating:{
-  book: async (parent:{book_id: string}) => {
-    return await bookRatings(parent.book_id);
-  },
-},
+// Rating:{
+//   book: async (parent:{book_id: string}) => {
+//     return await bookRatings(parent.book_id);
+//   },
+// },
 Review:{
   book: async (parent: {book_id: string}) => {
     return await bookReviews(parent.book_id);
