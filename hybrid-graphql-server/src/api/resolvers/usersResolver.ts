@@ -1,92 +1,136 @@
-import { MediaItem } from '@sharedTypes/DBTypes';
-import {
-  deleteMedia,
-  fetchAllMedia,
-  fetchMediaById,
-  ownBookList,
-  postMedia,
-  putMedia,
-} from '../models/mediaModel';
-import { MyContext } from '../../local-types';
-import { GraphQLError } from 'graphql';
-import { bookReviews } from '../models/reviewModel';
-import { bookRatings } from '../models/ratingModel';
+import {User, UserWithNoPassword} from '@sharedTypes/DBTypes';
+import {fetchData} from '../../lib/functions';
+import {MyContext} from '../../local-types';
+import {GraphQLError} from 'graphql';
+import {LoginResponse, UserResponse} from '@sharedTypes/MessageTypes';
 
 export default {
-  Rating: {
-    book: async (parent: { book_id: string }) => {
-      return await bookRatings(parent.book_id);
-    },
-  },
-  Review: {
-    book: async (parent: { book_id: string }) => {
-      return await bookReviews(parent.book_id);
+  MediaItem: {
+    owner: async (parent: {user_id: string}) => {
+      const user = await fetchData<UserWithNoPassword>(
+        process.env.AUTH_SERVER + '/users/' + parent.user_id,
+      );
+      return user;
     },
   },
 
   Query: {
-    mediaItems: async () => {
-      return await fetchAllMedia();
+    users: async () => {
+      const users = await fetchData<UserWithNoPassword[]>(
+        process.env.AUTH_SERVER + '/users',
+      );
+      return users;
     },
-    ownBookList: async (_parent: undefined, args: { user_id: string }) => {
-      const id = args.user_id;
-      return await ownBookList(id);
+    user: async (_parent: undefined, args: {user_id: string}) => {
+      const user = await fetchData<UserWithNoPassword>(
+        process.env.AUTH_SERVER + '/users/' + args.user_id,
+      );
+      return user;
     },
-
-    mediaItem: async (_parent: undefined, args: { book_id: string }) => {
-      const id = args.book_id;
-      return await fetchMediaById(id);
+    checkUsername: async (_parent: undefined, args: {username: string}) => {
+      console.log('username', args.username);
+      const user = await fetchData(
+        process.env.AUTH_SERVER + `/users/username/${args.username}`,
+      );
+      console.log('user', user);
+      return user;
+    },
+    checkEmail: async (_parent: undefined, args: {email: string}) => {
+      console.log('email', args.email);
+      const user = await fetchData(
+        process.env.AUTH_SERVER + `/users/email/${args.email}`,
+      );
+      console.log('user', user);
+      return user;
+    },
+    checkToken: async (_parent: undefined, args: {token: string}) => {
+      const user = await fetchData(process.env.AUTH_SERVER + '/users/token/', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${args.token}`,
+        },
+      });
     },
   },
   Mutation: {
-    createMediaItem: async (
+    createUser: async (
       _parent: undefined,
-      args: {
-        input: Omit<
-          MediaItem,
-          'book_id' | 'created_at' | 'thumbnail' | 'user_id'
-        >;
-      },
-      context: MyContext,
+      args: {input: Pick<User, 'username' | 'email' | 'password'>},
     ) => {
-      if (!context.user || !context.user.user_id) {
-        throw new GraphQLError('Not authorized', {
-          extensions: { code: 'NOT_AUTHORIZED' },
-        });
-      }
-      const userdata = {
-        ...args.input,
-        user_id: context.user.user_id,
+      const options: RequestInit = {
+        method: 'POST',
+        body: JSON.stringify(args.input),
+        headers: {'Content-Type': 'application/json'},
       };
-      return await postMedia(userdata);
+      const user = await fetchData<UserResponse>(
+        process.env.AUTH_SERVER + '/users',
+        options,
+      );
+      return user;
     },
 
-    updateMediaItem: async (
+    login: async (
       _parent: undefined,
-      args: {
-        input: Pick<MediaItem, 'title' | 'description'>;
-        book_id: string;
-      },
+      args: Pick<User, 'username' | 'password'>,
     ) => {
-      return await putMedia(args.input, args.book_id);
+      const options = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(args),
+      };
+      console.log(options);
+      const user = await fetchData<LoginResponse>(
+        process.env.AUTH_SERVER + '/auth/login',
+        options,
+      );
+      console.log(user);
+      return user;
     },
 
-    deleteMediaItem: async (
+    updateUser: async (
       _parent: undefined,
-      args: { book_id: string },
+      args: {input: Pick<User, 'username' | 'email' | 'password'>},
       context: MyContext,
     ) => {
       if (!context.user || !context.user.user_id) {
         throw new GraphQLError('Not authorized', {
-          extensions: { code: 'NOT_AUTHORIZED' },
+          extensions: {code: 'NOT_AUTHORIZED'},
         });
       }
-
-      return await deleteMedia(
-        args.book_id,
-        context.user,
-        context.user.token,
+      const options: RequestInit = {
+        method: 'PUT',
+        body: JSON.stringify(args.input),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${context.user.token}`,
+        },
+      };
+      const user = await fetchData<UserResponse>(
+        process.env.AUTH_SERVER + '/users',
+        options,
       );
+      return user;
+    },
+
+    deleteUser: async (_parent: undefined, args: {}, context: MyContext) => {
+      if (!context.user || !context.user.user_id) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'NOT_AUTHORIZED'},
+        });
+      }
+      const options: RequestInit = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${context.user.token}`,
+        },
+      };
+      const user = await fetchData<UserResponse>(
+        process.env.AUTH_SERVER + '/users',
+        options,
+      );
+      return user;
     },
   },
 };
