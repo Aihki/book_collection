@@ -52,7 +52,7 @@ const app = express();
     await server.start();
 
     app.use(
-      '/graphql',
+      '/graphql/apollo',
       cors(),
       express.json(),
       expressMiddleware(server, {
