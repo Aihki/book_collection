@@ -18,11 +18,11 @@ export default {
 //     return await bookRatings(parent.book_id);
 //   },
 // },
-Review:{
-  book: async (parent: {book_id: string}) => {
-    return await bookReviews(parent.book_id);
-  },
-},
+// Review:{
+//   book: async (parent: {book_id: string}) => {
+//     return await bookReviews(parent.book_id);
+//   },
+// },
 
   Query: {
     mediaItems: async () => {
