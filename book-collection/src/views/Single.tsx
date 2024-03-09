@@ -48,18 +48,20 @@ const Single = () => {
             </div>
           </div>
         </div>
-        <div className="w-full">
-        < Review book={book} />
+        <div className="flex flex-col items-center justify-center w-full">
+           <Review book={book} />
+            </div>
       </div>
-      </div>
-      <button
-        className="close"
-        onClick={() => {
-          navigate(-1);
-        }}
-      >
-        return
-      </button>
+      <div className="flex items-center justify-center">
+  <button
+    className="m-3 w-3/5 rounded-md flex items-center justify-center bg-slate-700 p-3"
+    onClick={() => {
+      navigate(-1);
+    }}
+  >
+    return
+  </button>
+</div>
     </>
   );
 };
