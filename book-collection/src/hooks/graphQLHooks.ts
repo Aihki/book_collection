@@ -225,7 +225,7 @@ const variables = {
     email: user.email,
   }
 };
-
+console.log(variables);
 const userResult = await makeQuery<GraphQLResponse<{ createUser: UserResponse }>, { input: RegCredentials
 }>(query, variables);
     return userResult.data.createUser;
@@ -246,7 +246,7 @@ const getUsernameAvailable = async (username: string) => {
     {username} ,
   );
 
-  return userCheckResult.data.checkUsername;
+  return userCheckResult.data.checkUsername.available;
 }
 
 const getEmailAvailable = async (email: string) => {
@@ -263,7 +263,7 @@ const getEmailAvailable = async (email: string) => {
       {email}
     );
 
-  return emailCheckResult.data.checkEmail;
+  return emailCheckResult.data.checkEmail.available;
 }
   return {getUserByToken, postUser, getUsernameAvailable, getEmailAvailable};
 };

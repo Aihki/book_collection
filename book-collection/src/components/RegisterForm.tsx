@@ -22,12 +22,12 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
 
   const handleUsernameBlur = async (event: React.SyntheticEvent<HTMLInputElement>) => {
     const result = await getUsernameAvailable(event.currentTarget.value);
-    setUsernameAvaileble(result.available);
+    setUsernameAvaileble(result);
   };
 
   const handleEmailBlur = async (event: React.SyntheticEvent<HTMLInputElement>) => {
     const result = await getEmailAvailable(event.currentTarget.value);
-    setEmailAvaileble(result.available);
+    setEmailAvaileble(result);
   }
 
 

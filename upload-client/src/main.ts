@@ -110,7 +110,6 @@ const postFile = async (uploadResponse: UploadResponse) => {
       series_name: seriesInput && seriesInput.value,
     },
   };
-  console.log('hello', variables);
   const options = {
     method: 'POST',
     body: JSON.stringify({query, variables}),
