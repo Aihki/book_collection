@@ -244,7 +244,7 @@ const getUsernameAvailable = async (username: string) => {
 
   const userCheckResult = await makeQuery<GraphQLResponse<{ checkUsername: AvailableResponse }>, {username:string} >(
     query,
-    username ,
+    {username} ,
   );
 
   return userCheckResult.data.checkUsername;
