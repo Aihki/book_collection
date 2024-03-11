@@ -4,7 +4,7 @@ const fetchData = async <T>(
   url: string,
   options: RequestInit = {},
 ): Promise<T> => {
-  console.log(url, options)
+  console.log('the options', options)
   console.log('fetching data from url: ', url);
   const response = await fetch(url, options);
   const json = await response.json();
@@ -41,7 +41,7 @@ body.variables = variables;
       headers,
       body: JSON.stringify(body),
   };
-
+  console.log('options', options);
   return await fetchData<TF>(
       import.meta.env.VITE_GRAPHQL_API,
       options,
