@@ -95,7 +95,7 @@ export default {
         process.env.AUTH_SERVER + '/users/email/' + args.email,
         options,
       );
-
+        console.log('user', user)
       return user;
     },
     checkToken: async (_parent: undefined, args: undefined, context: MyContext) => {
@@ -134,6 +134,7 @@ export default {
         process.env.AUTH_SERVER + '/users',
         options,
       );
+      console.log('hello', userResponse.user)
       return userResponse.user;
     },
     login: async (

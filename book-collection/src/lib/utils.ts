@@ -15,6 +15,7 @@ const fetchData = async <T>(
     }
     throw new Error(`Error ${response.status} occured`);
   }
+  console.log('json', json)
   return json;
 };
 
@@ -39,7 +40,7 @@ body.variables = variables;
       headers,
       body: JSON.stringify(body),
   };
-  console.log('options', options);
+
   return await fetchData<TF>(
       import.meta.env.VITE_GRAPHQL_API,
       options,
