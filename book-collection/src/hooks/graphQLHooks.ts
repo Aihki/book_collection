@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Like, MediaItem, MediaItemWithOwner, Rating, ReadingStatus, Review, User } from "@sharedTypes/DBTypes";
+import { Like, MediaItem, MediaItemWithOwner, Rating, ReadingStatus, Review } from "@sharedTypes/DBTypes";
 import {
-  AvailableResponse,
   LoginResponse,
   MediaResponse,
   MessageResponse,
@@ -227,7 +226,7 @@ const variables = {
   }
 };
 
-const userResult = await makeQuery<GraphQLResponse<{ createUser: User }>, { input: RegCredentials
+const userResult = await makeQuery<GraphQLResponse<{ createUser: UserResponse }>, { input: RegCredentials
 }>(query, variables);
     return userResult.data.createUser;
   };
@@ -242,7 +241,7 @@ const getUsernameAvailable = async (username: string) => {
     }
   `;
 
-  const userCheckResult = await makeQuery<GraphQLResponse<{ checkUsername: AvailableResponse }>, {username:string} >(
+  const userCheckResult = await makeQuery<GraphQLResponse<{ checkUsername: {available: boolean} }>, {username:string} >(
     query,
     {username} ,
   );
@@ -259,7 +258,7 @@ const getEmailAvailable = async (email: string) => {
       }
     }
   `;
-    const emailCheckResult = await makeQuery<GraphQLResponse<{ checkEmail: AvailableResponse  }>, {email:string}>(
+    const emailCheckResult = await makeQuery<GraphQLResponse<{ checkEmail: {available: boolean}  }>, {email:string}>(
       query,
       {email}
     );
