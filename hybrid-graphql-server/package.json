@@ -7,7 +7,7 @@
     "start": "node dist/hybrid-graphql/src/index.js",
     "dev": "nodemon src/index.ts",
     "build": "tsc",
-    "copygql": "copyfiles -E -u 1 src/api/schemas/*.graphql dist/hybrid-graphql/src",
+    "copygql": "copyfiles -E -u 1 src/api/schemas/*.graphql dist/hybrid-graphql-server/src",
     "postbuild": "npm run copygql",
     "lint": "eslint --fix src test",
     "test": "jest"
