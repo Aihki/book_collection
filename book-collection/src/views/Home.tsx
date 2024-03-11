@@ -8,7 +8,7 @@ const Home = () => {
  if (!mediaArray) {
     return <p>there where now books</p>;
   }
-
+console.log(mediaArray)
   return (
     <>
       <h2 className="text-3xl flex items-center justify-center p-3">Activity Feed</h2>
