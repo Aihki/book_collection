@@ -174,7 +174,6 @@ const getBookById = async (book_id: string) => {
     }
   `;
   const variables = { input: book };
-  console.log(variables)
   const bookResult = await makeQuery<
   GraphQLResponse<{ createMedia: MediaResponse }>,
   { input: Omit<MediaItem, 'book_id' | 'thumbnail' | 'created_at'> }
@@ -335,8 +334,7 @@ return await makeQuery<GraphQLResponse<{ createLike: MessageResponse }>, { bookI
       }
     }
   `;
-const variables = { likeId: like_id }
-console.log(like_id, token)
+const variables = { likeId: like_id };
 return await makeQuery<GraphQLResponse<{ deleteLike: MessageResponse }>, { likeId: string }
 >(query, variables, token);
   };
@@ -502,7 +500,6 @@ const useBookStatus = () => {
     query,
     { bookId: book_id },
   );
-    console.log(result.data.mediaItem.status.status_name)
   return result.data.mediaItem.status.status_name;
   }
 

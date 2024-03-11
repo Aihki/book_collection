@@ -89,7 +89,6 @@ const Likes = ({book}: {book: MediaItemWithOwner}) => {
     }
   };
 
-  console.log(likeState);
 
   return (
     <>

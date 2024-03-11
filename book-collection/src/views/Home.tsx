@@ -5,6 +5,9 @@ import { useBook } from '../hooks/graphQLHooks';
 const Home = () => {
 
  const {mediaArray} = useBook();
+ if (!mediaArray) {
+    return <p>there where now books</p>;
+  }
 
   return (
     <>

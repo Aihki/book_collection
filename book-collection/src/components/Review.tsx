@@ -22,7 +22,6 @@ const Review = ({book}: {book: MediaItemWithOwner}) => {
     }
     try {
       await postReview(inputs.review_text,book.book_id, token);
-      console.log('postReview')
       await getReview();
       if (formRef.current) {
         formRef.current.reset();
@@ -46,7 +45,7 @@ const Review = ({book}: {book: MediaItemWithOwner}) => {
       setReview([]);
     }
   };
-  console.log('review', review)
+
 
 
   useEffect(() => {

@@ -18,7 +18,6 @@ const Status = ({book}: {book: MediaItemWithOwner}) => {
   const allSatus = async () => {
     try {
       const statuses = await getAllStatus();
-      console.log('statuses',statuses)
       setAllStatuses(statuses);
     } catch (error) {
       setAllStatuses([]);
@@ -30,7 +29,6 @@ const Status = ({book}: {book: MediaItemWithOwner}) => {
   const getStatus = async () => {
     try {
       const status = await getBookStatus(book.book_id);
-      console.log('status',status)
       setStatus(status);
     } catch (error) {
       setStatus('');
@@ -44,7 +42,6 @@ const Status = ({book}: {book: MediaItemWithOwner}) => {
     return;
   }
     try {
-      console.log('status_id',status_id)
       const newStatus = await changeStatus(book.book_id, status_id, token);
       console.log('newStatus',newStatus)
       getStatus();
