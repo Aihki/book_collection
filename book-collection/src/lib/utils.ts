@@ -39,7 +39,7 @@ body.variables = variables;
       headers,
       body: JSON.stringify(body),
   };
-
+console.log('testi');
   return await fetchData<TF>(
       import.meta.env.VITE_GRAPHQL_API,
       options,
