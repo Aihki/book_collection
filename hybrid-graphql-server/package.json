@@ -4,7 +4,7 @@
   "description": "A basic starter for an express.js API with Typescript & GraphQL",
   "main": "src/index.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "node dist/hybrid-graphql/src/index.js",
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "copygql": "copyfiles -E -u 1 src/api/schemas/*.graphql dist/hybrid-graphql/src",
@@ -16,7 +16,6 @@
   "author": "ILE",
   "license": "MIT",
   "dependencies": {
-    "@apollo/client": "^3.9.2",
     "@apollo/server": "^4.10.0",
     "@graphql-tools/load-files": "^7.0.0",
     "@graphql-tools/merge": "^9.0.1",
