@@ -229,7 +229,7 @@ const variables = {
 
 const userResult = await makeQuery<GraphQLResponse<{ createUser: User }>, { input: RegCredentials
 }>(query, variables);
-console.log(userResult.data.createUser)
+console.log(userResult)
     return userResult.data.createUser;
   };
 
