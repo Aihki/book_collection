@@ -6,7 +6,9 @@ const fetchData = async <T>(
 ): Promise<T> => {
   console.log('fetching data from url: ', url);
   const response = await fetch(url, options);
+  console.log('response', response)
   const json = await response.json();
+  console.log('json', json)
   if (!response.ok) {
     const errorJson = json as unknown as ErrorResponse;
     console.log('errorJson', errorJson);
@@ -15,7 +17,6 @@ const fetchData = async <T>(
     }
     throw new Error(`Error ${response.status} occured`);
   }
-  console.log('json', json)
   return json;
 };
 

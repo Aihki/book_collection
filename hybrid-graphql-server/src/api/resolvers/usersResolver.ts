@@ -134,7 +134,6 @@ export default {
         process.env.AUTH_SERVER + '/users',
         options,
       );
-      console.log('hello', userResponse.user)
       return userResponse.user;
     },
     login: async (
