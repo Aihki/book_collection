@@ -226,12 +226,10 @@ const variables = {
     email: user.email,
   }
 };
-console.log(variables.input.username);
-console.log(variables.input.password);
-console.log(variables.input.email);
 
 const userResult = await makeQuery<GraphQLResponse<{ createUser: User }>, { input: RegCredentials
 }>(query, variables);
+console.log(userResult.data.createUser)
     return userResult.data.createUser;
   };
 
