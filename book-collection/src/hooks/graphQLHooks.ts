@@ -51,11 +51,18 @@ const ownBookList = async (user_id: string) => {
 `;
 
 
-  const result =
-    await makeQuery<GraphQLResponse<{ ownBookList: MediaItemWithOwner[] }>, { userId: string; } >(
-   query,
-    {userId: user_id}
-   );
+  const variables = { userId: user_id };
+  const options: RequestInit = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({query, variables}),
+  };
+  const result = await fetchData<{
+    data: {ownBookList: MediaItemWithOwner[]};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+
    console.log(result.data.ownBookList)
     return result.data.ownBookList;
   };
@@ -78,11 +85,17 @@ const getBookById = async (book_id: string) => {
     }
   }
 `;
-  const result =
-    await makeQuery<GraphQLResponse<{ mediaItem: MediaItem }>, { bookId: string }>(
-      query,
-      { bookId: book_id },
-    );
+ const variables = { bookId: book_id };
+ const options: RequestInit = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({query, variables}),
+  };
+  const result = await fetchData<{
+    data: {mediaItem: MediaItem};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
   return result.data.mediaItem;
 };
 
@@ -119,9 +132,16 @@ const getBookById = async (book_id: string) => {
         }
       }
     `;
-      const result =
-        await makeQuery<GraphQLResponse<{ mediaItems: MediaItemWithOwner[] }>, undefined>(
-       query, );
+      const options: RequestInit = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({query}),
+      };
+      const result = await fetchData<{
+        data: {mediaItems: MediaItemWithOwner[]};
+      }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
       setMediaArray(result.data.mediaItems);
     } catch (e) {
       console.log("getMedia", (e as Error).message);
@@ -173,10 +193,17 @@ const getBookById = async (book_id: string) => {
     }
   `;
   const variables = { input: book };
-  const bookResult = await makeQuery<
-  GraphQLResponse<{ createMedia: MediaResponse }>,
-  { input: Omit<MediaItem, 'book_id' | 'thumbnail' | 'created_at'> }
->(query, variables, token);
+  const options: RequestInit = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+    body: JSON.stringify({query, variables}),
+  };
+  const bookResult = await fetchData<{
+    data: {createMediaItem: MediaItemWithOwner};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
     return bookResult;
   }
 
@@ -300,9 +327,21 @@ const useAuthentication = () => {
       }
     }
   `;
-  const loginResult = await makeQuery<GraphQLResponse<{login: LoginResponse}>, Credentials>(query, creds);
+  const variables = {
+    username: creds.username,
+    password: creds.password,
+  };
+  const options: RequestInit = {
+    method: 'POST',
+    body: JSON.stringify({query, variables}),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  const loginResult = await fetchData<{
+    data: {login: LoginResponse};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
   return loginResult.data.login;
-
   };
 return {postLogin};
 
@@ -333,12 +372,20 @@ const useLike = () => {
     }
   `;
   const variables = { bookId: book_id }
-return await makeQuery<GraphQLResponse<{ createLike: MessageResponse }>, { bookId: string }>(
-    query,
-    variables,
-    token,
-  );
+const options: RequestInit = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + token,
+  },
+  body: JSON.stringify({query, variables}),
+};
+  const likeResult = await fetchData<{
+    data: {createLike: MessageResponse};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  return likeResult.data.createLike;
   };
+
 
   const deleteLike = async (like_id: string, token: string) => {
     const query = `
@@ -349,9 +396,19 @@ return await makeQuery<GraphQLResponse<{ createLike: MessageResponse }>, { bookI
     }
   `;
 const variables = { likeId: like_id };
-return await makeQuery<GraphQLResponse<{ deleteLike: MessageResponse }>, { likeId: string }
->(query, variables, token);
+const options: RequestInit = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + token,
+  },
+  body: JSON.stringify({query, variables}),
   };
+  const likeResult = await fetchData<{
+    data: {deleteLike: MessageResponse};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  return likeResult.data.deleteLike;
+  }
 
   const getCountByMediaId = async (book_id: string) => {
     const query = `
@@ -363,9 +420,17 @@ return await makeQuery<GraphQLResponse<{ deleteLike: MessageResponse }>, { likeI
       }
     }
   `;
-  const result = await makeQuery<GraphQLResponse<{ mediaItem: {likes: Like[]} }>, { bookId: string }>(
-    query,
-    { bookId: book_id },
+const variables = { bookId: book_id };
+const options: RequestInit = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({query, variables}),
+  };
+  const result = await fetchData<{
+    data: {mediaItem: {likes: {like_id: string}[]}};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options
   );
 return {count: result.data.mediaItem.likes.length}
   };
@@ -383,15 +448,21 @@ return {count: result.data.mediaItem.likes.length}
       }
     }
   `;
-  const result = await makeQuery<GraphQLResponse<{ mediaItem: { likes: { user: {user_id: string }, like_id: string}[]} }>,
-  { bookId: string }
-  >(query, {bookId: book_id}, token);
-  const userLikes = result.data.mediaItem.likes.map(like => ({
-    user_id: like.user.user_id,
-    like_id: like.like_id
-    }));
-  return userLikes;
+const variables = { bookId: book_id };
+const options: RequestInit = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + token,
+  },
+  body: JSON.stringify({query, variables}),
   };
+  const result = await fetchData<{
+    data: {mediaItem: {likes: Like[]}};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  return result.data.mediaItem.likes;
+  }
+
 
   return {postLike, deleteLike, getCountByMediaId, getUserLike};
 };
@@ -408,10 +479,21 @@ const useReview = () => {
       }
     }
   `;
-  const result = await makeQuery<GraphQLResponse<{ addReview: MessageResponse }>, { bookId: string,reviewText: string }>(
-    query,
-    { bookId: book_id, reviewText:review_text },
-    token,
+const variables = {
+  bookId: book_id,
+  reviewText: review_text,
+};
+const options: RequestInit = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + token,
+  },
+  body: JSON.stringify({query, variables}),
+  };
+  const result = await fetchData<{
+    data: {addReview: MessageResponse};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options
   );
   return result.data.addReview;
   };
@@ -430,9 +512,17 @@ const useReview = () => {
         }
       }
   `;
-  const result = await makeQuery<GraphQLResponse<{ review:  Review[] }>, { bookId: string }>(
-    query,
-    { bookId: book_id },
+const variables = { bookId: book_id };
+const options: RequestInit = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({query, variables}),
+  };
+  const result = await fetchData<{
+    data: {review: Review[]};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options
   );
   return result.data.review;
   };
@@ -453,11 +543,22 @@ const useRating = () => {
       }
     }
   `;
-  return await makeQuery<GraphQLResponse<{ addRating: MessageResponse }>, { bookId: string, ratingValue: number }>(
-    query,
-    { bookId: book_id, ratingValue: rating_value },
-    token,
-  );
+  const variables = {
+    bookId: book_id,
+    ratingValue: rating_value,
+  };
+  const options: RequestInit = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+    body: JSON.stringify({query, variables}),
+  };
+  const result = await fetchData<{
+    data: {addRating: MessageResponse};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  return result.data.addRating;
   };
 
 const getRatingByBookId = async (book_id: string) => {
@@ -470,11 +571,17 @@ const getRatingByBookId = async (book_id: string) => {
   }
 `;
 
-  const result = await makeQuery<GraphQLResponse<{rating: Rating[] }>, { bookId: string }>(
-    query,
-    { bookId: book_id },
-  );
-
+const variables = { bookId: book_id };
+const options: RequestInit = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({query, variables}),
+  };
+  const result = await fetchData<{
+    data: {rating: Rating};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
   return result.data.rating;
 }
 
@@ -491,9 +598,18 @@ const useBookStatus = () => {
       }
     }
   `;
-  const result = await makeQuery<GraphQLResponse<{ status: ReadingStatus[] }>, undefined>(
-    query,
-  );
+
+const options: RequestInit = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({query}),
+  };
+  const result = await fetchData<{
+    data: {status: ReadingStatus[]};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+
   return result.data.status.map(status => ({
     status_name: status.status_name,
     status_id: status.status_id
@@ -510,10 +626,17 @@ const useBookStatus = () => {
       }
     }
   `;
-  const result = await makeQuery<GraphQLResponse<{ mediaItem: {status:{status_name:string}} }>, { bookId: string }>(
-    query,
-    { bookId: book_id },
-  );
+  const variables = { bookId: book_id };
+  const options: RequestInit = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({query, variables}),
+  };
+  const result = await fetchData<{
+    data: {mediaItem: {status: {status_name: string}}};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
   return result.data.mediaItem.status.status_name;
   }
 
@@ -531,11 +654,18 @@ const useBookStatus = () => {
     },
     bookId: book_id,
   };
-  return await makeQuery<GraphQLResponse<{ updateBookStatus: MessageResponse }>, { input: { status_id: string }, bookId: string }>(
-    query,
-    variables,
-    token,
-  );
+const options: RequestInit = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + token,
+  },
+  body: JSON.stringify({query, variables}),
+  };
+  const result = await fetchData<{
+    data: {updateBookStatus: MessageResponse};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  return result.data.updateBookStatus;
   }
   return {getAllStatus,changeStatus, getBookStatus};
 }
