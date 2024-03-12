@@ -265,6 +265,7 @@ const variables = {
     data: {createUser: UserResponse};
   }>(import.meta.env.VITE_GRAPHQL_API, options);
   const data = newUserData.data.createUser.user;
+  console.log('newUserData', data)
   return data;
 } catch (error) {
   console.error('postUser failed', error);
@@ -281,6 +282,7 @@ const getUsernameAvailable = async (username: string) => {
       }
     }
   `;
+
 
   const variables = {username};
   const options: RequestInit = {
