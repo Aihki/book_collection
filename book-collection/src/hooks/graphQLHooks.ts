@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Like, MediaItem, MediaItemWithOwner, Rating, ReadingStatus, Review } from "@sharedTypes/DBTypes";
 import {
   LoginResponse,
-  MediaResponse,
   MessageResponse,
   UploadResponse,
   UserResponse,
@@ -580,7 +579,7 @@ const options: RequestInit = {
   body: JSON.stringify({query, variables}),
   };
   const result = await fetchData<{
-    data: {rating: Rating};
+    data: {rating: Rating[]};
   }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
   return result.data.rating;
 }
