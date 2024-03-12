@@ -40,7 +40,7 @@ body.variables = variables;
       headers,
       body: JSON.stringify(body),
   };
-  console.log('options', options);
+
   return await fetchData<TF>(
       import.meta.env.VITE_GRAPHQL_API,
       options,
