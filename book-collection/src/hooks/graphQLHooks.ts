@@ -282,11 +282,18 @@ const getUsernameAvailable = async (username: string) => {
     }
   `;
 
-  const userCheckResult = await makeQuery<GraphQLResponse<{ checkUsername: {available: boolean} }>, {username:string} >(
-    query,
-    {username} ,
-  );
-
+  const variables = {username};
+  const options: RequestInit = {
+    method: 'POST',
+    body: JSON.stringify({query, variables}),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  const userCheckResult = await fetchData<{
+    data: {checkUsername: {available: boolean}};
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
+console.log('userCheckResult', userCheckResult.data.checkUsername.available)
   return userCheckResult.data.checkUsername.available;
 }
 
@@ -299,11 +306,18 @@ const getEmailAvailable = async (email: string) => {
       }
     }
   `;
-    const emailCheckResult = await makeQuery<GraphQLResponse<{ checkEmail: {available: boolean}  }>, {email:string}>(
-      query,
-      {email}
-    );
-
+  const variables = {email};
+const options: RequestInit = {
+  method: 'POST',
+  body: JSON.stringify({query, variables}),
+  headers: {
+    'Content-Type': 'application/json',
+  },
+};
+const emailCheckResult = await fetchData<{
+  data: {checkEmail: {available: boolean}};
+}>(import.meta.env.VITE_GRAPHQL_API, options);
+console.log('emailCheckResult', emailCheckResult.data.checkEmail.available)
   return emailCheckResult.data.checkEmail.available;
 }
   return {getUserByToken, postUser, getUsernameAvailable, getEmailAvailable};
