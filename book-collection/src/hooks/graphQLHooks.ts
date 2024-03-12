@@ -7,7 +7,7 @@ import {
   UserResponse,
 } from "@sharedTypes/MessageTypes";
 import { fetchData, makeQuery } from "../lib/utils";
-import {Credentials, GraphQLResponse, RegCredentials} from '../types/LocalTypes';
+import {Credentials, GraphQLResponse} from '../types/LocalTypes';
 import { useUpdateContext } from "./contexHooks";
 
 
@@ -234,7 +234,7 @@ const useUser = () => {
     return response.data.checkToken;
   };
 
-  const postUser = async (user: RegCredentials )=> {
+  const postUser = async (user: {username:string; email:string; password:string;} )=> {
     try {
       const query = `
     mutation CreateUser($input: InputUser) {
@@ -264,6 +264,7 @@ const variables = {
   const newUserData = await fetchData<{
     data: {createUser: UserResponse};
   }>(import.meta.env.VITE_GRAPHQL_API, options);
+  console.log('newUserData', newUserData)
   const data = newUserData.data.createUser.user;
   console.log('newUserData', data)
   return data;
