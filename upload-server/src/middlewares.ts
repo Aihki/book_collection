@@ -67,11 +67,12 @@ const makeThumbnail = async (
   try {
     if (!req.file) {
       next(new CustomError('File not uploaded', 500));
+      console.log('no file')
       return;
     }
 
 
-    const src = path.join(__dirname, '..','..', 'uploads', req.file.filename);
+    const src = path.join(__dirname, '..', 'uploads', req.file.filename);
     console.log(src);
 
     if (!req.file.mimetype.includes('video')) {
