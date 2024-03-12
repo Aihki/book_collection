@@ -2,6 +2,8 @@ import express, {Request} from 'express';
 import {deleteFile, uploadFile} from '../controllers/uploadController';
 import multer, {FileFilterCallback} from 'multer';
 import {authenticate, makeThumbnail} from '../../middlewares';
+import path from 'path';
+
 
 const fileFilter = (
   request: Request,
@@ -14,7 +16,8 @@ const fileFilter = (
     cb(null, false);
   }
 };
-const upload = multer({dest: './uploads/', fileFilter});
+const uploadPath = path.join(__dirname, '..', '..', 'uploads');
+const upload = multer({dest: uploadPath, fileFilter});
 const router = express.Router();
 
 // TODO: validation

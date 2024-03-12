@@ -6,9 +6,11 @@ const Home = () => {
 
  const {mediaArray} = useBook();
  if (!mediaArray) {
-    return <p>there where now books</p>;
+  <div className="h-screen flex items-center justify-center">
+  <p className="text-2xl text-center">There were no books.</p>
+</div>
   }
-console.log(mediaArray)
+
   return (
     <>
       <h2 className="text-3xl flex items-center justify-center p-3">Activity Feed</h2>
