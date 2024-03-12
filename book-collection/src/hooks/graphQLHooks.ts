@@ -60,7 +60,7 @@ const ownBookList = async (user_id: string) => {
   };
   const result = await fetchData<{
     data: {ownBookList: MediaItemWithOwner[]};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
 
    console.log(result.data.ownBookList)
     return result.data.ownBookList;
@@ -94,7 +94,7 @@ const getBookById = async (book_id: string) => {
   };
   const result = await fetchData<{
     data: {mediaItem: MediaItem};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
   return result.data.mediaItem;
 };
 
@@ -140,7 +140,7 @@ const getBookById = async (book_id: string) => {
       };
       const result = await fetchData<{
         data: {mediaItems: MediaItemWithOwner[]};
-      }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+      }>(import.meta.env.VITE_GRAPHQL_API, options);
       setMediaArray(result.data.mediaItems);
     } catch (e) {
       console.log("getMedia", (e as Error).message);
@@ -202,7 +202,7 @@ const getBookById = async (book_id: string) => {
   };
   const bookResult = await fetchData<{
     data: {createMediaItem: MediaItemWithOwner};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
     return bookResult;
   }
 
@@ -263,7 +263,7 @@ const variables = {
 
   const newUserData = await fetchData<{
     data: {createUser: UserResponse};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
   const data = newUserData.data.createUser.user;
   return data;
 } catch (error) {
@@ -339,7 +339,7 @@ const useAuthentication = () => {
   };
   const loginResult = await fetchData<{
     data: {login: LoginResponse};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
   return loginResult.data.login;
   };
 return {postLogin};
@@ -381,7 +381,7 @@ const options: RequestInit = {
 };
   const likeResult = await fetchData<{
     data: {createLike: MessageResponse};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
   return likeResult.data.createLike;
   };
 
@@ -405,7 +405,7 @@ const options: RequestInit = {
   };
   const likeResult = await fetchData<{
     data: {deleteLike: MessageResponse};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
   return likeResult.data.deleteLike;
   }
 
@@ -429,7 +429,7 @@ const options: RequestInit = {
   };
   const result = await fetchData<{
     data: {mediaItem: {likes: {like_id: string}[]}};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options
+  }>(import.meta.env.VITE_GRAPHQL_API, options
   );
 return {count: result.data.mediaItem.likes.length}
   };
@@ -458,7 +458,7 @@ const options: RequestInit = {
   };
   const result = await fetchData<{
     data: {mediaItem: {likes: Like[]}};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
   return result.data.mediaItem.likes;
   }
 
@@ -492,7 +492,7 @@ const options: RequestInit = {
   };
   const result = await fetchData<{
     data: {addReview: MessageResponse};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options
+  }>(import.meta.env.VITE_GRAPHQL_API, options
   );
   return result.data.addReview;
   };
@@ -521,7 +521,7 @@ const options: RequestInit = {
   };
   const result = await fetchData<{
     data: {review: Review[]};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options
+  }>(import.meta.env.VITE_GRAPHQL_API, options
   );
   return result.data.review;
   };
@@ -556,7 +556,7 @@ const useRating = () => {
   };
   const result = await fetchData<{
     data: {addRating: MessageResponse};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
   return result.data.addRating;
   };
 
@@ -580,7 +580,7 @@ const options: RequestInit = {
   };
   const result = await fetchData<{
     data: {rating: Rating[]};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
   return result.data.rating;
 }
 
@@ -607,7 +607,7 @@ const options: RequestInit = {
   };
   const result = await fetchData<{
     data: {status: ReadingStatus[]};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
 
   return result.data.status.map(status => ({
     status_name: status.status_name,
@@ -635,7 +635,7 @@ const options: RequestInit = {
   };
   const result = await fetchData<{
     data: {mediaItem: {status: {status_name: string}}};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
   return result.data.mediaItem.status.status_name;
   }
 
@@ -663,7 +663,7 @@ const options: RequestInit = {
   };
   const result = await fetchData<{
     data: {updateBookStatus: MessageResponse};
-  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  }>(import.meta.env.VITE_GRAPHQL_API, options);
   return result.data.updateBookStatus;
   }
   return {getAllStatus,changeStatus, getBookStatus};
