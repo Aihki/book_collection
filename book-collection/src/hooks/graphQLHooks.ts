@@ -209,6 +209,7 @@ const useUser = () => {
   };
 
   const postUser = async (user: RegCredentials )=> {
+    try {
       const query = `
     mutation CreateUser($input: InputUser) {
       createUser(input: $input) {
@@ -217,18 +218,32 @@ const useUser = () => {
         level_name,
         created_at
       }
-    }`;
+    }`
+    ;
 const variables = {
   input: {
     username: user.username,
     password: user.password,
     email: user.email,
-  }
+  },
 };
-console.log(variables);
-const userResult = await makeQuery<GraphQLResponse<{ createUser: UserResponse }>, { input: RegCredentials
-}>(query, variables);
-    return userResult.data.createUser;
+  const options: RequestInit = {
+    method: 'POST',
+    body: JSON.stringify({query, variables}),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const newUserData = await fetchData<{
+    data: {createUser: UserResponse};
+  }>(import.meta.env.VITE_GRAPHQL_SERVER, options);
+  const data = newUserData.data.createUser.user;
+  return data;
+} catch (error) {
+  console.error('postUser failed', error);
+}
+};
   };
 
 const getUsernameAvailable = async (username: string) => {
