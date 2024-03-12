@@ -119,6 +119,7 @@ const getBookById = async (book_id: string) => {
         }
       }
     `;
+    console.log('bookFeed',query)
       const result =
         await makeQuery<GraphQLResponse<{ mediaItems: MediaItemWithOwner[] }>, undefined>(
        query, );
@@ -173,7 +174,6 @@ const getBookById = async (book_id: string) => {
     }
   `;
   const variables = { input: book };
-  console.log(variables)
   const bookResult = await makeQuery<
   GraphQLResponse<{ createMedia: MediaResponse }>,
   { input: Omit<MediaItem, 'book_id' | 'thumbnail' | 'created_at'> }
@@ -227,6 +227,7 @@ const variables = {
   }
 };
 
+  console.log('post user',query, variables);
 
 const userResult = await makeQuery<GraphQLResponse<{ createUser: UserResponse }>, { input: RegCredentials
 }>(query, variables);
