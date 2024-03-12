@@ -17,6 +17,7 @@ const fileFilter = (
   }
 };
 const uploadPath = path.join(__dirname, '..', '..', 'uploads');
+console.log(uploadPath);
 const upload = multer({dest: uploadPath, fileFilter});
 const router = express.Router();
 
