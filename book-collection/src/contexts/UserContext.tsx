@@ -51,7 +51,6 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
       if (token) {
         // if token exists, get user data from API
         const userResponse = await getUserByToken(token);
-        console.log('userResponse',userResponse)
         setUser(userResponse);
         // when page is refreshed, the user is redirected to origin (see ProtectedRoute.tsx)
         const origin = location.state.from.pathname || '/';

@@ -192,7 +192,7 @@ const deleteMedia = async (
     ''
   );
 
-  console.log(token);
+
 
   const connection = await promisePool.getConnection();
 

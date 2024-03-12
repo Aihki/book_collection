@@ -56,7 +56,6 @@ const ownBookList = async (user_id: string) => {
    query,
     {userId: user_id}
    );
-   console.log(result.data.ownBookList)
     return result.data.ownBookList;
   };
 
@@ -119,7 +118,7 @@ const getBookById = async (book_id: string) => {
         }
       }
     `;
-    console.log('bookFeed',query)
+
       const result =
         await makeQuery<GraphQLResponse<{ mediaItems: MediaItemWithOwner[] }>, undefined>(
        query, );
@@ -227,7 +226,6 @@ const variables = {
   }
 };
 
-  console.log('post user',query, variables);
 
 const userResult = await makeQuery<GraphQLResponse<{ createUser: UserResponse }>, { input: RegCredentials
 }>(query, variables);
@@ -337,7 +335,6 @@ return await makeQuery<GraphQLResponse<{ createLike: MessageResponse }>, { bookI
     }
   `;
 const variables = { likeId: like_id }
-console.log(like_id, token)
 return await makeQuery<GraphQLResponse<{ deleteLike: MessageResponse }>, { likeId: string }
 >(query, variables, token);
   };
