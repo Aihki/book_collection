@@ -5,11 +5,15 @@ import { useBook } from '../hooks/graphQLHooks';
 const Home = () => {
 
  const {mediaArray} = useBook();
- if (!mediaArray) {
-  <div className="h-screen flex items-center justify-center">
-  <p className="text-2xl text-center">There were no books.</p>
-</div>
-  }
+
+
+ if (!mediaArray || mediaArray.length === 0) {
+  return (
+    <div className="h-screen flex items-center justify-center">
+      <p className="text-2xl text-center">There were no books.</p>
+    </div>
+  );
+}
 
   return (
     <>
