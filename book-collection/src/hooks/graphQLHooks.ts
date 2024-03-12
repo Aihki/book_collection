@@ -244,7 +244,7 @@ const variables = {
   console.error('postUser failed', error);
 }
 };
-  };
+
 
 const getUsernameAvailable = async (username: string) => {
     const query = `
