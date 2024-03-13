@@ -23,10 +23,46 @@ const router = express.Router();
 
 // TODO: validation
 
+/**
+* @api {post} /upload Upload File
+* @apiName UploadFile
+* @apiGroup File
+* @apiDescription Uploads a file and creates a thumbnail.
+*
+* @apiHeader {String} Authorization User's authorization token.
+*
+* @apiParam (Request Body) {File} file File to upload (form-data).
+*
+* @apiSuccess {String} original Original file URL.
+* @apiSuccess {String} thumbnail Thumbnail file URL.
+*
+* @apiError (Error 401) Unauthorized User authentication failed.
+* @apiError (Error 422) UnprocessableEntity Unable to process the request.
+* @apiError (Error 500) InternalServerError Server error occurred.
+*/
+
+
 router
   .route('/upload')
   .post(authenticate, upload.single('file'), makeThumbnail, uploadFile);
 
+
+ /**
+ * @api {delete} /delete/:filename Delete File
+ * @apiName DeleteFile
+ * @apiGroup File
+ * @apiDescription Deletes a file by filename.
+ *
+ * @apiHeader {String} Authorization User's authorization token.
+ *
+ * @apiParam {String} filename Filename of the file to delete.
+ *
+ * @apiSuccess {String} message Success message.
+ *
+ * @apiError (Error 401) Unauthorized User authentication failed.
+ * @apiError (Error 404) NotFound File not found.
+ * @apiError (Error 500) InternalServerError Server error occurred.
+ */
 router.route('/delete/:filename').delete(authenticate, deleteFile);
 
 export default router;

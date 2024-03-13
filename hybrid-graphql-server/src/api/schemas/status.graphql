@@ -1,8 +1,9 @@
+# Represents the status of a book by status_name
 type Status {
   status_id: ID!
   status_name: String!
 }
-
+# Represents the status of a book
 type BookStatus {
   book_id: ID!
   status_id: ID!
@@ -15,13 +16,14 @@ type BookStatusResponse {
 }
 
 type Query {
+  # Query to retrieve all statuses
   status: [Status]
 }
 
 input BookStatusInput {
   status_id: ID
 }
-
+# Mutation to update the status of a book
 type Mutation {
   updateBookStatus(input: BookStatusInput!, book_id: ID!): BookStatusResponse
 }

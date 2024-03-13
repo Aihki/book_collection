@@ -1,3 +1,4 @@
+
 type User {
   user_id: ID!
   username: String!
@@ -21,8 +22,11 @@ input InputUser {
   password: String! @constraint(pattern: "(?=.*[A-Z])", minLength: 5)
 }
 
+# Mutation type for user-related operations
 type Mutation {
+  # Create a new user, username must be unique, email must be unique and in a valid format, password must be at least 5 characters long and contain at least one uppercase letter
   createUser(input: InputUser): User!
+  # Login a user, username and password must be valid
   login(username: String!, password: String!): LoginResponse
   updateUser(input: InputUser!, user_id: ID!): User!
   deleteUser: Message!

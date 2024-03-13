@@ -1,3 +1,4 @@
+# Defines the structure of a like
 type Like {
   like_id: ID!
   book: MediaItem!
@@ -5,14 +6,19 @@ type Like {
   created_at: String!
 }
 
+# Defines the available queries for retrieving likes
 type Query {
+  # Retrieve a list of all likes
   likes: [Like]
   likesByBookID(book_id: ID!): [Like]
   likesByUserID(user_id: ID!): [Like]
   myLikes: [Like]
 }
 
+# Defines the available mutations for creating and deleting likes
 type Mutation {
+  # Create a new like for book
   createLike(book_id: ID!): Message
+  # Delete a like by its unique identifier
   deleteLike(like_id: ID!): Message
 }

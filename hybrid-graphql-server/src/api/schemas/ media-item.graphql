@@ -1,5 +1,4 @@
-
-
+# Defines the structure of a media item
 type MediaItem {
   book_id: ID!
   user_id: ID!
@@ -20,13 +19,18 @@ type MediaItem {
   status: Status
 }
 
-
+# Defines the available queries for retrieving media items
 type Query {
+  # Retrieve a list of all media items
   mediaItems: [MediaItem]
+  # Retrieve a single media item by its unique identifier
   mediaItem(book_id: ID!): MediaItem
   mediaItemsByTag(tag: String!): [MediaItem]
+  # Retrieve a list of media items owned by a specific user
   ownBookList(user_id: ID!): [MediaItem]
 }
+
+# Input object for creating a new media item
 input MediaItemInput {
   user_id: ID!
   filename: String!
@@ -37,7 +41,7 @@ input MediaItemInput {
   book_genre: String!
   series_name: String
 }
-
+# Input object for updating an existing media item
 input MediaItemUpdateInput {
   title: String!
   description: String!
@@ -46,7 +50,10 @@ input MediaItemUpdateInput {
 
 
 type Mutation {
+  # Create a new media item need book_genre, title, description, and series_name
   createMediaItem(input: MediaItemInput!): MediaItem
+  # Update an existing media item
   updateMediaItem(input: MediaItemInput!, book_id: ID): MediaItem
+  # Delete a media item by its unique identifier
   deleteMediaItem(book_id: ID!): Message
 }

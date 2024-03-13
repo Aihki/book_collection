@@ -1,3 +1,4 @@
+# Defines the structure of a rating given by a user to a media item
 type Rating {
   rating_id: ID!
   book: MediaItem!
@@ -6,12 +7,15 @@ type Rating {
   created_at: String!
 }
 
-
+# Defines the available queries for retrieving ratings
 type Query {
+  #gets rating for the book
   rating(book_id: ID!): [Rating!]!
 }
 
+# Defines the available mutation for adding a rating to a media item
 type Mutation {
+  # Add a rating to a book, rating_value must be between 1 and 5
   addRating(book_id: ID!, rating_value: Int!):Message
 }
 

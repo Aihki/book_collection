@@ -19,6 +19,7 @@ app.use(
 app.use(cors());
 app.use(express.json());
 
+app.use(express.static('public'));
 app.use(
   '/uploads',
   express.static(
@@ -31,7 +32,6 @@ app.get<{}, MessageResponse>('/', (req, res) => {
     message: 'API location: api/v1',
   });
 });
-
 app.use('/api/v1', api);
 
 app.use(notFound);

@@ -1,3 +1,4 @@
+# Defines the structure of a review given by a user for a media item
 type Review {
   review_id: ID!
   book: MediaItem!
@@ -7,12 +8,16 @@ type Review {
 }
 
 
+# Defines the available queries for retrieving reviews
 type Query {
+  #gets review for the book
   review(book_id: ID!): [Review!]!
 
 }
 
+# Defines the available mutation for adding a review to a media item
 type Mutation {
+  # Add a review to a book
   addReview(book_id: ID!, review_text:String!): Message
 }
 
