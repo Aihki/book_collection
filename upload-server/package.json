@@ -19,11 +19,10 @@
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ilkkamtk/hybrid-upload-server/issues"
+    "url": "https://github.com/aihki/book_collection/upload-server#readme"
   },
-  "homepage": "https://github.com/ilkkamtk/hybrid-upload-server#readme",
+  "homepage": "https://github.com/aihki/book_collection/upload-server#readme",
   "dependencies": {
-    "apidoc": "^1.2.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.2",
@@ -52,6 +51,7 @@
     "@types/sharp": "^0.31.1",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
+    "apidoc": "^1.2.0",
     "eslint": "^8.56.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",

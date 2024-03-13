@@ -1,8 +1,8 @@
 {
-  "name": "Hybridisovellukset, uploadpalvelin",
+  "name": "Uploadpalvelin",
   "version": "1.0.0",
-  "description": "For Metropolia Courses",
-  "title": "uploadpalvelin",
+  "description": "Uploadpalvelin",
+  "title": "Uploadpalvelin",
   "url": "/api/v1",
   "template": {
     "withCompare": true,

@@ -32,9 +32,19 @@ const router = express.Router();
 * @apiHeader {String} Authorization User's authorization token.
 *
 * @apiParam (Request Body) {File} file File to upload (form-data).
-*
+* @apiParamExample {form-data} Request-Example:
+*  {
+*   "file": "file"
+* }
 * @apiSuccess {String} original Original file URL.
 * @apiSuccess {String} thumbnail Thumbnail file URL.
+* @apiSuccessExample {json} Success-Response:
+*   HTTP/1.1 200 OK
+* {
+*  "original": "http://localhost:3000/uploads/1619781531533-IMG_20210429_123456.jpg",
+* "thumbnail": "http://localhost:3000/uploads/thumbnails/1619781531533-IMG_20210429_123456.jpg"
+* }
+*
 *
 * @apiError (Error 401) Unauthorized User authentication failed.
 * @apiError (Error 422) UnprocessableEntity Unable to process the request.
@@ -58,6 +68,12 @@ router
  * @apiParam {String} filename Filename of the file to delete.
  *
  * @apiSuccess {String} message Success message.
+ * @apiSuccessExample {json} Success-Response:
+ *    HTTP/1.1 200 OK
+ *   {
+ *    "message": "File deleted successfully."
+ *  }
+ *
  *
  * @apiError (Error 401) Unauthorized User authentication failed.
  * @apiError (Error 404) NotFound File not found.

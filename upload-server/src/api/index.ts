@@ -10,7 +10,17 @@ router.get<{}, MessageResponse>('/', (req, res) => {
     message: 'routes: /upload, /delete',
   });
 });
-
+/** @api {get} / Endpoint
+* @apiName GetRoot
+* @apiGroup API
+*
+* @apiSuccess {Object} data Data object containing message.
+* @apiSuccessExample {json} Success-Response:
+*     HTTP/1.1 200 OK
+*     {
+*       "message": "routes: /upload, /delete"
+*     }
+*/
 router.use('/', fileRoute);
 
 export default router;
