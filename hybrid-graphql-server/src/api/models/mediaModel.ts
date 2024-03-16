@@ -79,51 +79,6 @@ const ownBookList = async (id: string): Promise<bookList[] | null> => {
   }
 };
 
-// Request a list of media items by tag
-const fetchMediaByTag = async (tag: string): Promise<MediaItem[] | null> => {
-  try {
-    const [rows] = await promisePool.execute<RowDataPacket[] & MediaItem[]>(
-      `SELECT Collection.*,
-      CONCAT(?, Collection.filename) AS filename,
-      CONCAT(?, CONCAT(Collection.filename, "-thumb.png")) AS thumbnail
-      FROM Collection
-      JOIN GenreTags ON Collection.book_id = GenreTags.book_id
-      JOIN Tags ON GenreTags.tag_id = Tags.tag_id
-      WHERE Tags.tag_name = ?`,
-      [process.env.UPLOAD_URL, process.env.UPLOAD_URL, tag],
-    );
-    if (rows.length === 0) {
-      return null;
-    }
-    return rows;
-  } catch (e) {
-    console.error('fetchMediaByTag error', (e as Error).message);
-    throw new Error((e as Error).message);
-  }
-};
-
-const fetchAllMediaByAppId = async (
-  id: string,
-): Promise<MediaItem[] | null> => {
-  const uploadPath = process.env.UPLOAD_URL;
-  try {
-    const [rows] = await promisePool.execute<RowDataPacket[] & MediaItem[]>(
-      `SELECT *,
-      CONCAT(?, filename) AS filename,
-      CONCAT(?, CONCAT(filename, "-thumb.png")) AS thumbnail
-      FROM Collection
-      WHERE app_id = ?`,
-      [uploadPath, uploadPath, id],
-    );
-    if (rows.length === 0) {
-      return null;
-    }
-    return rows;
-  } catch (e) {
-    console.error('fetchAllMedia error', (e as Error).message);
-    throw new Error((e as Error).message);
-  }
-};
 
 /**
  * Get media item by id from the database
@@ -428,52 +383,10 @@ const fetchHighestRatedMedia = async (): Promise<MediaItem | undefined> => {
   }
 };
 
-// Attach a tag to a media item
-const postTagToMedia = async (
-  tag_name: string,
-  book_id: string,
-): Promise<MediaItem | null> => {
-  try {
-    let tag_id: number = 0;
-    // check if tag exists (case insensitive)
-    const [tagResult] = await promisePool.execute<RowDataPacket[]>(
-      'SELECT * FROM Tags WHERE tag_name = ?',
-      [tag_name],
-    );
-    if (tagResult.length === 0) {
-      // if tag does not exist create it
-      const [insertResult] = await promisePool.execute<ResultSetHeader>(
-        'INSERT INTO Tags (tag_name) VALUES (?)',
-        [tag_name],
-      );
-      // get tag_id from created tag
-      if (insertResult.affectedRows === 0) {
-        return null;
-      }
-      tag_id = insertResult.insertId;
-    } else {
-      // if tag exists get tag_id from the first result
-      tag_id = tagResult[0].tag_id;
-    }
-    const [GenreTagsResult] = await promisePool.execute<ResultSetHeader>(
-      'INSERT INTO GenreTags (tag_id, book_id) VALUES (?, ?)',
-      [tag_id, book_id],
-    );
-    if (GenreTagsResult.affectedRows === 0) {
-      return null;
-    }
 
-    return await fetchMediaById(book_id);
-  } catch (e) {
-    console.error('postTagToMedia error', (e as Error).message);
-    throw new Error((e as Error).message);
-  }
-};
 
 export {
   fetchAllMedia,
-  fetchAllMediaByAppId,
-  fetchMediaByTag,
   fetchMediaById,
   postMedia,
   deleteMedia,
@@ -481,7 +394,6 @@ export {
   fetchMostCommentedMedia,
   fetchHighestRatedMedia,
   putMedia,
-  postTagToMedia,
   ownBookList,
   fetchBooksStatus,
 };

@@ -7,11 +7,11 @@ import { Link } from 'react-router-dom';
 
 
 const statusColors: StatusColors = {
-  'Reading': 'border-blue-500 ',
-  'Read': 'border-green-500',
-  'Dropped': 'border-red-500',
-  'Want to Read': 'border-yellow-500',
-  'Paused': 'border-purple-500',
+  'Reading': 'border-b-8 border-blue-500 ',
+  'Read': 'border-b-8 border-green-500',
+  'Dropped': 'border-b-8 border-red-500',
+  'Want to Read': 'border-b-8 border-yellow-500',
+  'Paused': 'border-b-8 border-purple-500',
 };
 const statusColorBox: StatusColors = {
   'Reading': 'bg-blue-500 ',
@@ -53,12 +53,12 @@ if (books) {
   <>
     {user &&(
       <>
-     <div className="mx-auto my-10 rounded-lg p-5">
+     <div className=" mx-auto my-10 rounded-lg p-5">
       <img className="w-32 h-32 rounded-full mx-auto" src="https://avatars.cloudflare.steamstatic.com/ce84b1df8d571a6b3cbb255c21c20960fd64aadf_full.jpg" alt="Profile picture" />
       <h2 className="text-3xl font-bold text-center">{user.username}</h2>
       <p className="text-center">Email: {user.email}</p>
       <div className="flex items-center justify-center">
-  <button className="m-2 bg-red-500 p-2 rounded-md text-center" onClick={handleLogout}>Logout</button>
+  <button className="m-2 bg-red-500 p-2 rounded-md text-center font-bold" onClick={handleLogout}>Logout</button>
 </div>
       <div className="flex flex-row justify-center sm:grid sm:grid-cols-2">
       {Object.entries(statusColorBox).map(([status, color], index) => (
@@ -69,34 +69,31 @@ if (books) {
 ))}
 </div>
 
-  <div className="flex items-center justify-center h-screen sm:w-full">
-  <div className="mt-5 overflow-auto h-4/5 w-5/6 sm:w-full">
+  <div className="flex items-center justify-center h-screen sm:w-full text-white">
+  <div className="mt-5 overflow-auto h-3/5 w-5/6 sm:w-full">
     {Object.entries(booksBySeries).map(([seriesName, booksInSeries], index) => (
-      <div key={index} className="mb-5 p-5 bg-gray-900 shadow-lg rounded-lg">
+      <div key={index} className="mb-5 p-5 bg-neutral-500 shadow-lg rounded-lg">
         <h2 className="text-2xl mb-5 text-center cursor-pointer" onClick={() => setExpandedSeries(seriesName === expandedSeries ? null : seriesName)}>
           {seriesName}
         </h2>
-        {seriesName === expandedSeries && booksInSeries.map((book, bookIndex) => (
-          <div key={bookIndex}>
-            <Link to="/single" state={book}>
-            <div className={`mb-5 min-w-0 rounded-md border-2 ${statusColors[book.status.status_name as keyof StatusColors]}`}>
-              <div className="bg-gray-900 rounded-md text-lg overflow-hidden relative grid grid-cols-12 sm:grid-cols-5 sm:w-full">
-                <div className="">
-                  <img
-                    className="bg-cover bg-no-repeat bg-center w-20 h-28"
-                    src={book.filename} alt={book.title}
-                  />
-                </div>
-                <div className="p-1 px-4 pr-3 col-span-11 sm:col-span-4 sm:w-full">
-                  <p className="text-base">{book.title}</p>
-                  <p className="text-base">{book.series_name}</p>
-                  <p className="pb-0 text-base">{book.book_genre}</p>
-                </div>
-              </div>
+        <div className="grid grid-cols-3 gap-4 sm:grid-cols-1">
+  {seriesName === expandedSeries && booksInSeries.map((book, bookIndex) => (
+    <div key={bookIndex}>
+      <Link to="/single" state={book}>
+      <div className={`mb-5 min-w-0 rounded-md ${statusColors[book.status.status_name as keyof StatusColors]}`}>
+          <div className="bg-gray-700  rounded-md text-lg overflow-hidden relative flex flex-col">
+            <div className="w-full">
+              <div className="block bg-no-repeat bg-top bg-cover h-56 w-full mt-0" style={{ backgroundImage: `url(https://m.media-amazon.com/images/I/81yS2PMLZ0L._AC_UF1000,1000_QL80_.jpg)` }}></div>
             </div>
-            </Link>
+            <div className="p-1 px-4 pr-3 w-full">
+              <p className="text-base font-bold">Book tittle: {book.title}</p>
+            </div>
           </div>
-        ))}
+        </div>
+      </Link>
+    </div>
+  ))}
+</div>
       </div>
     ))}
   </div>

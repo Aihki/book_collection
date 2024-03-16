@@ -3,6 +3,7 @@ import { Credentials } from "../types/LocalTypes";
 import { useUserContext } from "../hooks/contexHooks";
 
 
+
 const LoginForm = () => {
 const {handleLogin} = useUserContext();
 
@@ -42,7 +43,7 @@ const {handleSubmit,handleInputChange, inputs} = useForm(doLogin, initValues);
           />
         </div>
         <div className="flex items-center justify-center">
-        <button className="m-5 w-1/5 h-12 rounded-md bg-slate-750 p3 border border-white" type="submit">Login</button>
+        <button className="m-5 w-1/5 h-12 rounded-md bg-slate-750 p3 border border-white font-bold" type="submit">Login</button>
         </div>
       </form>
     </>

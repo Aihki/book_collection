@@ -4,7 +4,7 @@ import {fetchData} from '../../lib/functions';
 import {MyContext, UserFromToken} from '../../local-types';
 import {GraphQLError} from 'graphql';
 import jwt from 'jsonwebtoken';
-import { token } from 'morgan';
+
 
 
 

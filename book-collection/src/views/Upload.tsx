@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {useForm} from '../hooks/formHooks';
 import {useBook, useFile} from '../hooks/graphQLHooks';
 import {useNavigate} from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 // Upload.tsx
 const Upload = () => {
@@ -28,6 +29,7 @@ const Upload = () => {
       const bookResult = await postBook(fileResult, inputs, token);
       console.log('bookResult', bookResult);
       navigate('/');
+      toast.success('Book uploaded');
     } catch (e) {
       console.log((e as Error).message);
     }
@@ -46,12 +48,13 @@ const Upload = () => {
 
   return (
     <>
+    <div className="mx-auto my-10 rounded-lg p-5">
       <h3 className="text-3xl flex items-center justify-center p-3">Upload</h3>
       <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
         <div className="flex flex-col w-2/5 space-y-2 sm:w-4/5">
     <label htmlFor="title">Title</label>
     <input
-      className="rounded-md border-slate-500 p-3 text-slate-950"
+      className="rounded-md border-2 border-black p-3 text-black dark:border-none"
       name="title"
       type="text"
       id="title"
@@ -59,7 +62,7 @@ const Upload = () => {
     />
     <label htmlFor="genre">Genre</label>
     <input
-      className="rounded-md border-slate-500 p-3 text-slate-950"
+      className="rounded-md border-2 border-black p-3 text-black dark:border-none"
       name="genre"
       type="text"
       id="genre"
@@ -67,7 +70,7 @@ const Upload = () => {
     />
     <label htmlFor="series">Series</label>
     <input
-      className="rounded-md border-slate-500 p-3 text-slate-950"
+      className="rounded-md border-2 border-black p-3 text-black dark:border-none"
       name="series"
       type="text"
       id="series"
@@ -75,7 +78,7 @@ const Upload = () => {
     />
     <label htmlFor="description">Description</label>
     <textarea
-      className="rounded-md border-slate-500 p-3 text-slate-950"
+      className="rounded-md border-2 border-black p-3 text-black dark:border-none"
       name="description"
       rows={5}
       id="description"
@@ -83,7 +86,7 @@ const Upload = () => {
     ></textarea>
     <label htmlFor="file">File</label>
     <input
-      className="rounded-md border-slate-500 p-3 text-slate-950"
+      className="rounded-md border-2 border-black p-3 text-black dark:border-none"
       name="file"
       type="file"
       id="file"
@@ -108,6 +111,7 @@ const Upload = () => {
   Upload
 </button>
 </form>
+</div>
     </>
   );
 };

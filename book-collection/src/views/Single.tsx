@@ -54,12 +54,12 @@ const Single = () => {
       </div>
       <div className="flex items-center justify-center">
   <button
-    className="m-3 w-3/5 rounded-md flex items-center justify-center bg-slate-700 p-3"
+    className="m-3 w-2/5 rounded-md flex items-center justify-center bg-yellow-600 p-3 font-bold"
     onClick={() => {
       navigate(-1);
     }}
   >
-    return
+    Return
   </button>
 </div>
     </>

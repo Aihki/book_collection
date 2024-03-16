@@ -5,7 +5,7 @@ const Footer = () => {
   const {user} = useUserContext();
 
   return (
-<footer className="bg-gray-800 text-gray-300 p-4">
+<footer className="bg-slate-800  text-white p-4">
   <div className="container mx-auto">
     <div className="flex flex-row justify-center items-center">
 

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useUser } from '../hooks/graphQLHooks';
 import {useForm} from '../hooks/formHooks';
+import { toast } from 'react-toastify';
+
 
 
 
 const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
-  const {postUser} = useUser();
+  const {postUser, getUsernameAvailable, getEmailAvailable} = useUser();
   const [usernameAvailable, setUsernameAvaileble] = useState<boolean | undefined>(true);
   const [emailAvailable, setEmailAvaileble] = useState<boolean | undefined>(true);
 
@@ -15,7 +17,6 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
     password: '',
     email: '',
   };
-  const {getUsernameAvailable, getEmailAvailable} = useUser();
 
 
 
@@ -37,6 +38,7 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
         console.log('registering')
      await postUser(inputs);
      handletoggle();
+     toast.success('User registered');
       }
     }
     catch (error) {
@@ -91,7 +93,7 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
           <p className='text-red-500'>email not available</p>
         </div>)}
         <div className="flex items-center justify-center">
-  <button className="m-5 w-1/5 h-12 rounded-md bg-slate-750 p3 border border-white" type="submit">Register</button>
+  <button className="m-5 w-1/5 h-12 rounded-md bg-slate-750 p3 border border-white font-bold" type="submit">Register</button>
 </div>
       </form>
     </>

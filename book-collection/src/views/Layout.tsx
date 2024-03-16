@@ -12,14 +12,14 @@ const Layout = () => {
 
 
 return (
-  <div className="flex flex-col min-h-screen">
+  <div className="bg-neutral-300 dark:bg-neutral-800 dark:text-white flex flex-col min-h-screen">
   <header>
   <nav className="flex items-center justify-between flex-wrap bg-slate-800 p-6">
-    <div className="flex items-center flex-shrink-0 text-slate-50 mr-6">
+    <div className="flex items-center flex-shrink-0 text-white mr-6">
       <span className="font-semibold text-xl tracking-tight">Book Collection</span>
     </div>
-    <ul className="flex justify-end">
-      <li className="block mt-4 lg:inline-block lg:mt-0 text-grey-200 hover:text-white mr-4">
+    <ul className="flex justify-end text-white">
+      <li className="block mt-4 lg:inline-block lg:mt-0 text-grey-200  hover:text-white mr-4">
         <Link to="/">Home</Link>
       </li>
       {user ? (
