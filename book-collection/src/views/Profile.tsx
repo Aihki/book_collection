@@ -83,7 +83,7 @@ if (books) {
       <div className={`mb-5 min-w-0 rounded-md ${statusColors[book.status.status_name as keyof StatusColors]}`}>
           <div className="bg-gray-700  rounded-md text-lg overflow-hidden relative flex flex-col">
             <div className="w-full">
-              <div className="block bg-no-repeat bg-top bg-cover h-56 w-full mt-0" style={{ backgroundImage: `url(https://m.media-amazon.com/images/I/81yS2PMLZ0L._AC_UF1000,1000_QL80_.jpg)` }}></div>
+              <div className="block bg-no-repeat bg-top bg-cover h-56 w-full mt-0" style={{ backgroundImage: `url(${book.filename})` }}></div>
             </div>
             <div className="p-1 px-4 pr-3 w-full">
               <p className="text-base font-bold">Book tittle: {book.title}</p>
