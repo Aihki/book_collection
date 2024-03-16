@@ -23,12 +23,15 @@ Tämä on suuniteltu mobile fist.
 * kotisivu on feed missä näkee lisätytkirja
 * single näkymässä voit tykätä toisen lisäämästä kirja postista, voit arvostella kirjan kirjallisesti sekä tähdillä(1-5) sekä voit vaihtaa kirjan tilaa(esimerkiksi olet lukenut kirjan voit laitaan sen read statukselle)
 * your book list näet lisäämäsi kirjasi. Ne ovat jaoteltu sarjojen mukaan ja väri koodit kertovat nopeasti kirjan sen hetkisen statujsen. Pääset tätä kautta myös single näkymään jossa voi vaihtaa statusta.
+* light ja dark mode tulevat käyttäjän selaimen teema asetuksian mukaan
+* pien popup tulee kun rekisteröityy tai lisää kirjan
 
 ## lisä ideat joita en ehtinyt totoeuttamaan
 
 * voit lisätä toisen käyttäjän kaveriksi
 * feedistä voisi tehdä global ja kaverisi feedin
 * stauksen vaihto tapahtuisi popupissa
+* adminille olisi oma sivu sekä oikeudet resetoida numerollisen arvostelun jos käyttäjä haluaa vaihtaa sitä
 
 
 ## bugit
@@ -133,6 +136,11 @@ Tämä on suuniteltu mobile fist.
 [![LogIn](https://github.com/Aihki/book_collection/blob/main/screenshots/log.png)
 [![your book list](https://github.com/Aihki/book_collection/blob/main/screenshots/your_book_list.png)
 [![upload](https://github.com/Aihki/book_collection/blob/main/screenshots/upload_v1.png)
+
+
+## Tutoriaalit ja paketit
+* [react-toastify](https://www.npmjs.com/package/react-toastify)
+
 
 
 
