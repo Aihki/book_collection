@@ -6,15 +6,15 @@ Tämä on suuniteltu mobile fist.
 
 ## apidoc
 
-[auth-api](https://10.120.32.88/auth-api/)
-[upload-api](https://10.120.32.88/upload-api/)
-[graphql](https://github.com/Aihki/book_collection/blob/main/graphql_documentation.md)
+* [auth-api](https://10.120.32.88/auth-api/)
+* [upload-api](https://10.120.32.88/upload-api/)
+* [graphql](https://github.com/Aihki/book_collection/blob/main/graphql_documentation.md)
 
 ## BackEnd
-[Auth](https://10.120.32.88/auth-api/api/v1)
-[Upload](https://10.120.32.88/upload-api/api/v1)
-[Graphql](http://10.120.32.88/graphql/graphql)
-[Graphql](http://10.120.32.88/graphql/)
+* [Auth](https://10.120.32.88/auth-api/api/v1)
+* [Upload](https://10.120.32.88/upload-api/api/v1)
+* [Graphql](http://10.120.32.88/graphql/graphql)
+* [Graphql](http://10.120.32.88/graphql/)
 
 ## Toimminnalisuudet
 
