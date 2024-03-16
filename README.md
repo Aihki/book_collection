@@ -132,6 +132,7 @@ Tämä on suuniteltu mobile fist.
 [![Reg](https://github.com/Aihki/book_collection/blob/main/screenshots/reg.png)
 [![LogIn](https://github.com/Aihki/book_collection/blob/main/screenshots/log.png)
 [![your book list](https://github.com/Aihki/book_collection/blob/main/screenshots/your_book_list.png)
+[![upload](https://github.com/Aihki/book_collection/blob/main/screenshots/upload_v1.png)
 
 
 
