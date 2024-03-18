@@ -56,7 +56,7 @@ const Review = ({book}: {book: MediaItemWithOwner}) => {
   return (
     <>
     <h3 className="text-l font-bold pb-1 pr-3">Review</h3>
-    <div className="p-4 w-full bg-neutral-600 rounded-md">
+    <div className="p-4 w-11/12 bg-neutral-600 rounded-md">
   {review.length > 0 ? (
     <div className="flex flex-col items-center">
       <div className="rounded-md border border-slate-200 bg-slate-800 p-3 text-slate-100 text-center overflow-auto break-words max-w-2xl sm:max-w-sm xs:max-w-xs">
