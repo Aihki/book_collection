@@ -1,6 +1,7 @@
 import {useEffect, useReducer} from 'react';
 import {Like, MediaItemWithOwner} from '@sharedTypes/DBTypes';
 import {useLike} from '../hooks/graphQLHooks';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 type LikeState = {
   count: number;
@@ -92,16 +93,16 @@ const Likes = ({book}: {book: MediaItemWithOwner}) => {
 
   return (
     <>
-<div className="flex items-center">
-  <span>{likeState.count}</span>
-  <div
-    className={`p-2 cursor-pointer ${likeState.userLike ? 'text-green-500' : 'text-gray-500'}`}
-    onClick={handleLike}
-  >
-    {likeState.userLike ? '👍' : '👎'}
+  <div className="flex items-center">
+    <span>{likeState.count}</span>
+    <div
+      className={`p-2 cursor-pointer ${likeState.userLike ? 'text-red-500' : 'text-gray-500'}`}
+      onClick={handleLike}
+    >
+      {likeState.userLike ? <AiFillHeart /> : <AiOutlineHeart />}
+    </div>
   </div>
-</div>
-    </>
+</>
   );
 };
 
