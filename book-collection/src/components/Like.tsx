@@ -93,14 +93,17 @@ const Likes = ({book}: {book: MediaItemWithOwner}) => {
 
   return (
     <>
-  <div className="flex items-center">
-    <span>{likeState.count}</span>
-    <div onClick={handleLike}
-    >
-      {likeState.userLike ? (<AiFillHeart className='text-red-500' /> ): ( <AiOutlineHeart />)}
+    <div className="flex items-center">
+      <span>{likeState.count}</span>
+      <div
+        className={`p-2 cursor-pointer ${likeState.userLike ? 'text-red-500' : 'text-gray-500'}`}
+        onClick={handleLike}
+      >
+        {likeState.userLike ? <AiFillHeart /> : <AiOutlineHeart />}
+        {likeState.userLike ? (<AiFillHeart className='text-red-500' /> ): ( <AiOutlineHeart />)}
+      </div>
     </div>
-  </div>
-</>
+  </>
   );
 };
 
