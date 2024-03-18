@@ -1,5 +1,5 @@
-# book_collection
-Tämä on suuniteltu mobile fist.
+  # book_collection
+Tämä on suuniteltu mobile fist.Applikaation perus idea on että voit katsoa esim mitä numeroita tiestysta sarjakuvasta omistat jo tai mitkä kirjat tiestystä sarjasta omistat. Samalla pystyt laittamaan kirjan missä tilassa kirja on statuksen avulla(esim. olet lukenut jo tietin kirjan).
 
 ## linkki sovellukseen
 [BookCollection](http://10.120.32.88/)
@@ -11,8 +11,8 @@ Tämä on suuniteltu mobile fist.
 * [graphql](https://github.com/Aihki/book_collection/blob/main/graphql_documentation.md)
 
 ## BackEnd
-* [Auth](https://10.120.32.88/auth-api/api/v1)
-* [Upload](https://10.120.32.88/upload-api/api/v1)
+* [Auth](http://10.120.32.88/auth-api/api/v1)
+* [Upload](http://10.120.32.88/upload-api/api/v1)
 * [Graphql](http://10.120.32.88/graphql/graphql)
 * [Graphql](http://10.120.32.88/graphql/)
 
@@ -20,24 +20,24 @@ Tämä on suuniteltu mobile fist.
 
 * Perus kirjautuminen , rekisteröinti sekä ulos kirjautuminen
 * kirjan lisääminen. Kirjasta pitää lisää kirjan nimi, sarjan nimi(jos ei ole sarja laita miscellaneous), kirjan genre sekä pieni kuvaus kirjasta(tähän sopii hyvin kirjan takana oleva kuvaus) sekä kirjan kansikuvan
-* kotisivu on feed missä näkee lisätytkirja
+* etsivu on feed missä näkee lisätytkirja kaikilta käyttäjiltä, kun klikkaat kirjaa pääset katsomaan sitä tarkemmin single näkymään.
 * single näkymässä voit tykätä toisen lisäämästä kirja postista, voit arvostella kirjan kirjallisesti sekä tähdillä(1-5) sekä voit vaihtaa kirjan tilaa(esimerkiksi olet lukenut kirjan voit laitaan sen read statukselle)
-* your book list näet lisäämäsi kirjasi. Ne ovat jaoteltu sarjojen mukaan ja väri koodit kertovat nopeasti kirjan sen hetkisen statujsen. Pääset tätä kautta myös single näkymään jossa voi vaihtaa statusta.
-* light ja dark mode tulevat käyttäjän selaimen teema asetuksian mukaan
-* pien popup tulee kun rekisteröityy tai lisää kirjan
+* your book list näet lisäämäsi kirjasi(käyttäjä siis näkee vain lisäämänsä kirjat). Ne ovat jaoteltu sarjojen mukaan ja väri koodit kertovat nopeasti kirjan sen hetkisen statujsen. Pääset tätä kautta myös single näkymään jossa voit tehdä ylhäällä manitut asiat.
+* light ja dark mode tulevat käyttäjän selaimen teema asetuksian mukaan.(Tämäkin tein näin koska halusin testata uutta tailwindin kanssa)
+* pienen popup tulee kun rekisteröityy tai lisää kirjan
 
 ## lisä ideat joita en ehtinyt totoeuttamaan
 
-* voit lisätä toisen käyttäjän kaveriksi
-* feedistä voisi tehdä global ja kaverisi feedin
-* stauksen vaihto tapahtuisi popupissa
-* adminille olisi oma sivu sekä oikeudet resetoida numerollisen arvostelun jos käyttäjä haluaa vaihtaa sitä
+* voit lisätä toisen käyttäjän kaveriksi.
+* feedistä voisi tehdä global ja kaverisi feedin.
+* stauksen vaihto tapahtuisi popupissa.
+* adminille olisi oma sivu sekä oikeudet resetoida numerollisen arvostelun jos käyttäjä haluaa vaihtaa sitä.
 
 
 ## bugit
 
 * jos lataa uusiksi esimerkiksi ip/login niin se ei lataa uudelleen sivua.
-* like nappia voi joutua painamaan muutaman kerran että se rekisteröityy
+* like nappia voi joutua painamaan muutaman kerran että se rekisteröityy.
 * descriptioniin on tietty merkkimäärä pidemmissä se tuottaa ongelmaa. Elikkä tällä hetkellä kannattaa laittaa lyhennetty descriptioniin.
 
 ## Database
@@ -130,12 +130,12 @@ Tämä on suuniteltu mobile fist.
 ```
 
 ## Screenshots
-[![home page without books](https://github.com/Aihki/book_collection/blob/main/screenshots/home_without_books.png)
-[![home page book add](https://github.com/Aihki/book_collection/blob/main/screenshots/home_with_book.png)
-[![Reg](https://github.com/Aihki/book_collection/blob/main/screenshots/reg.png)
-[![LogIn](https://github.com/Aihki/book_collection/blob/main/screenshots/log.png)
-[![your book list](https://github.com/Aihki/book_collection/blob/main/screenshots/your_book_list.png)
-[![upload](https://github.com/Aihki/book_collection/blob/main/screenshots/upload_v1.png)
+* [home page without books](https://github.com/Aihki/book_collection/blob/main/screenshots/home_without_books.png)
+* [home page book add](https://github.com/Aihki/book_collection/blob/main/screenshots/home_with_book.png)
+* [Reg](https://github.com/Aihki/book_collection/blob/main/screenshots/reg.png)
+* [LogIn](https://github.com/Aihki/book_collection/blob/main/screenshots/log.png)
+* [your book list](https://github.com/Aihki/book_collection/blob/main/screenshots/your_book_list.png)
+* [upload](https://github.com/Aihki/book_collection/blob/main/screenshots/upload_v1.png)
 
 
 ## Tutoriaalit ja paketit
