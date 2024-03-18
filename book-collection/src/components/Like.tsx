@@ -10,8 +10,8 @@ type LikeState = {
 
 type LikeAction = {
   type: 'setLikeCount' | 'like';
-  count?: number;
   like?: Like | null;
+  count?: number;
 };
 
 const likeInitialState: LikeState = {
@@ -29,7 +29,6 @@ const likeReducer = (state: LikeState, action: LikeAction): LikeState => {
       }
       return state;
   }
-  return state;
 };
 
 const Likes = ({book}: {book: MediaItemWithOwner}) => {
@@ -95,13 +94,9 @@ const Likes = ({book}: {book: MediaItemWithOwner}) => {
     <>
     <div className="flex items-center">
       <span>{likeState.count}</span>
-      <div
-        className={`p-2 cursor-pointer ${likeState.userLike ? 'text-red-500' : 'text-gray-500'}`}
-        onClick={handleLike}
-      >
-        {likeState.userLike ? <AiFillHeart /> : <AiOutlineHeart />}
+      <button onClick={handleLike} className='text-l p-1'>
         {likeState.userLike ? (<AiFillHeart className='text-red-500' /> ): ( <AiOutlineHeart />)}
-      </div>
+      </button>
     </div>
   </>
   );
