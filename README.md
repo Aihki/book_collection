@@ -130,12 +130,20 @@ Tämä on suuniteltu mobile fist.Applikaation perus idea on että voit katsoa es
 ```
 
 ## Screenshots
-* [home page without books](https://github.com/Aihki/book_collection/blob/main/screenshots/home_without_books.png)
-* [home page book add](https://github.com/Aihki/book_collection/blob/main/screenshots/home_with_book.png)
-* [Reg](https://github.com/Aihki/book_collection/blob/main/screenshots/reg.png)
-* [LogIn](https://github.com/Aihki/book_collection/blob/main/screenshots/log.png)
-* [your book list](https://github.com/Aihki/book_collection/blob/main/screenshots/your_book_list.png)
-* [upload](https://github.com/Aihki/book_collection/blob/main/screenshots/upload_v1.png)
+* [home dark theme](https://github.com/Aihki/book_collection/blob/main/screenshots/home_dark_theme.jpg)
+* [home light theme](https://github.com/Aihki/book_collection/blob/main/screenshots/home_light_theme.jpg)
+* [log dark theme](https://github.com/Aihki/book_collection/blob/main/screenshots/login_dark_theme.jpg)
+* [log light theme](https://github.com/Aihki/book_collection/blob/main/screenshots/login_light_theme.jpg)
+* [reg dark theme](https://github.com/Aihki/book_collection/blob/main/screenshots/reg_dark_theme.jpg)
+* [reg light theme](https://github.com/Aihki/book_collection/blob/main/screenshots/reg_light_theme.jpg)
+* [single dark theme 1](https://github.com/Aihki/book_collection/blob/main/screenshots/single_dark_theme.jpg)
+* [single dark theme 2](https://github.com/Aihki/book_collection/blob/main/screenshots/single_dark_theme2.jpg)
+* [single light theme 1](https://github.com/Aihki/book_collection/blob/main/screenshots/single_light_theme1.jpg)
+* [single light theme 2](https://github.com/Aihki/book_collection/blob/main/screenshots/single_light_theme2.jpg)
+* [upload dark theme 1](hhttps://github.com/Aihki/book_collection/blob/main/screenshots/upload_dark_theme1.jpg)
+* [upload dark theme 2](https://github.com/Aihki/book_collection/blob/main/screenshots/upload_dark_theme2.jpg)
+* [upload light theme 1](https://github.com/Aihki/book_collection/blob/main/screenshots/upload_light_theme1.jpg)
+* [upload light theme 2](https://github.com/Aihki/book_collection/blob/main/screenshots/upload_light_theme2.jpg)
 
 
 ## Tutoriaalit ja paketit
