@@ -140,12 +140,17 @@ Tämä on suuniteltu mobile fist.Applikaation perus idea on että voit katsoa es
 * [single dark theme 2](https://github.com/Aihki/book_collection/blob/main/screenshots/single_dark_theme2.jpg)
 * [single light theme 1](https://github.com/Aihki/book_collection/blob/main/screenshots/single_light_theme1.jpg)
 * [single light theme 2](https://github.com/Aihki/book_collection/blob/main/screenshots/single_light_theme2.jpg)
-* [upload dark theme 1](hhttps://github.com/Aihki/book_collection/blob/main/screenshots/upload_dark_theme1.jpg)
+* [upload dark theme 1](https://github.com/Aihki/book_collection/blob/main/screenshots/upload_dark_theme1.jpg)
 * [upload dark theme 2](https://github.com/Aihki/book_collection/blob/main/screenshots/upload_dark_theme2.jpg)
 * [upload light theme 1](https://github.com/Aihki/book_collection/blob/main/screenshots/upload_light_theme1.jpg)
 * [upload light theme 2](https://github.com/Aihki/book_collection/blob/main/screenshots/upload_light_theme2.jpg)
-
-
+* [boolist dark theme 1](https://github.com/Aihki/book_collection/blob/main/screenshots/booklist_dark_theme1.jpg)
+* [boolist dark theme 2](https://github.com/Aihki/book_collection/blob/main/screenshots/bookList_dark_theme2.jpg)
+* [boolist dark theme 3](https://github.com/Aihki/book_collection/blob/main/screenshots/bookList_dark_theme3.jpg)
+* [boolist light theme 1](https://github.com/Aihki/book_collection/blob/main/screenshots/bookList_light_theme1.jpg)
+* [boolist light theme 2](https://github.com/Aihki/book_collection/blob/main/screenshots/bookList_light_theme2.jpg)
+* [boolist light theme 3](https://github.com/Aihki/book_collection/blob/main/screenshots/bookList_light_theme3.jpg)
+  
 ## Tutoriaalit ja paketit
 * [react-toastify](https://www.npmjs.com/package/react-toastify)
 
