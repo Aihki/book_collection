@@ -37,7 +37,7 @@ Tämä on suuniteltu mobile fist.Applikaation perus idea on että voit katsoa es
 ## bugit
 
 * jos lataa uusiksi esimerkiksi ip/login niin se ei lataa uudelleen sivua.
-* like nappia voi joutua painamaan muutaman kerran että se rekisteröityy.
+* like nappia voi joutua painamaan muutaman kerran että se rekisteröi sen. Tämä tapahtuu jos siinä kirjassa on jo like annettu.(kerran kun painaa se näyttää ettei ole yhtää likejä ja kun toisen kerraniin tulee oikea määrä näkyviin)
 * descriptioniin on tietty merkkimäärä pidemmissä se tuottaa ongelmaa. Elikkä tällä hetkellä kannattaa laittaa lyhennetty descriptioniin.
 
 ## Database
